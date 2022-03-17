@@ -1,0 +1,48 @@
+@import '../../common/themes/default.less';
+@import '../../common/themes/mixin.less';
+.notification {
+  .default-component();
+  position: fixed;
+  top: @margin-md;
+  right: 0;
+  width: 384px;
+  margin-right: @margin-md;
+  box-shadow: @box-shadow-base;
+  background-color: #fff;
+  padding: @padding-lg;
+  border-radius: @border-radius-base;
+  z-index: 1010;
+  .title {
+    font-size: @font-size-lg;
+    padding-right: @padding-lg;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: @margin-xs;
+  }
+  .message {
+    color: @color-text-2;
+  }
+  &.error .title {
+    color: @error-color;
+  }
+  &.success .title {
+    color: @green-base;
+  }
+  &.info .title {
+    color: @blue-base;
+  }
+  &.warning .title {
+    color: @gold-base;
+  }
+  .close {
+    position: absolute;
+    top: @padding-lg;
+    right: @padding-lg;
+    font-size: 20px;
+    line-height: 1;
+    display: inline-block;
+    cursor: pointer;
+  }
+}

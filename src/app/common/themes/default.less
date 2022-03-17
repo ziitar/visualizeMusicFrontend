@@ -1,0 +1,116 @@
+@import './color';
+
+@theme: default;
+
+//over write antd color vars;
+@blue-base: @color-brand-primary;
+@purple-base: @color-function-purple;
+@cyan-base: @color-function-cyan;
+@green-base: @color-function-green;
+@red-base: @color-function-red;
+@orange-base: @color-function-orange;
+@gold-base: @color-function-orange;
+@error-color: @red-base;
+@heading-color: @color-text-1;
+@text-color: @color-text-1;
+@text-color-secondary: @color-text-3;
+@disabled-color: @color-text-4;
+@primary-color-active: @color-brand-primary-click;
+@primary-color-hover: @color-brand-primary-hover;
+@table-header-bg: @color-bg-table-title;
+@table-border-color: @color-line-1;
+@table-row-hover-bg: #f3f8fe;
+@table-selected-row-bg: @color-bg-selected;
+@table-selected-row-hover-bg: #e8eef5;
+// border
+@border-radius-base: 4px;
+@border-color-base: @color-line-3;
+@border-color-split: @color-line-2;
+
+// padding
+// vertical paddings
+@padding-lg: 24px; // containers
+@padding-md: 16px; // small containers and buttons
+@padding-sm: 12px; // Form controls and items
+@padding-xs: 8px; // small items
+@padding-xss: 4px; // more small
+
+// margin
+// vertical margins
+@margin-lg: 24px; // containers
+@margin-md: 16px; // small containers and buttons
+@margin-sm: 12px; // Form controls and items
+@margin-xs: 8px; // small items
+@margin-xss: 4px; // more small
+
+// text
+@font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', 'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+  'Noto Color Emoji';
+
+@font-size-base: 14px; //正文
+@font-line-height-base: 22px;
+
+@font-size-lg: @font-size-base + 2px;
+@font-title: @font-size-lg; //页面/弹窗/抽屉标题
+@font-line-height-lg: 24px;
+
+@font-size-sm: 12px; //表格字体/辅助说明
+@font-line-height-sm: 20px;
+
+@font-large-title: 20px; //特殊大标题
+@font-line-height-title: 28px;
+
+@font-weight-regular: 400; //默认
+@font-weight-medium: 500; //标题/加粗字体
+@font-weight-semibold: 600; //-
+
+//shadow
+@box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+  0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+// Select
+@select-item-selected-bg: @color-bg-selected;
+@select-item-active-bg: fade(@color-brand-primary, 10%);
+@select-item-selected-color: @color-text-1;
+@select-item-selected-font-weight: @font-weight-medium;
+
+//Input
+@input-color: @color-text-1;
+
+//Button
+@btn-disable-color: @color-text-3;
+@btn-disable-bg: @color-bg-selected;
+@btn-disable-border: @color-line-2;
+
+//Alert
+@alert-success-border-color: fade(@color-function-green, 40%);
+@alert-success-bg-color: fade(@color-function-green, 8%);
+@alert-info-border-color: fade(@color-brand-primary, 40%);
+@alert-info-bg-color: fade(@color-brand-primary, 8%);
+@alert-warning-border-color: fade(@color-function-orange, 40%);
+@alert-warning-bg-color: fade(@color-function-orange, 8%);
+@alert-error-border-color: fade(@color-function-red, 40%);
+@alert-error-bg-color: fade(@color-function-red, 8%);
+
+// Switch
+@switch-sm-min-width: 32px;
+
+// Layout
+@layout-body-background: @color-bg-pages;
+@background-color: #f0f2f5;
+
+// Table
+
+@table-padding-vertical: @padding-sm;
+@table-padding-horizontal: @padding-sm;
+@table-font-size: @font-size-sm;
+
+// pagination
+@pagination-item-size: 30px;
+
+// drawer
+@drawer-header-close-size: 56px;
+
+// page card shadow
+@card-shadow-base: 0 0 2px 0 rgba(0, 0, 0, 0.03);
