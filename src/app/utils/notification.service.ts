@@ -1,64 +1,63 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs'
+import { Subject } from 'rxjs';
 
 export interface NotificationConfig {
   title: string;
   message: string;
   duration?: number;
-  status: 'success'|'info'|'error'|'warning';
-  show: boolean
+  status: 'success' | 'info' | 'error' | 'warning';
+  show: boolean;
 }
 
-type NotificationSubject = (Omit<NotificationConfig, 'show'> & {show: true}) | {show: false}
+type NotificationSubject = (Omit<NotificationConfig, 'show'> & { show: true }) | { show: false };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
-
-  private subject = new Subject<NotificationSubject>()
+  private subject = new Subject<NotificationSubject>();
 
   observableNotification = this.subject.asObservable();
 
-  notif(config: NotificationConfig){
-    if(config.show){
-      setTimeout(()=> {
-        this.subject.next({show: false})
-      }, config.duration|| 4.5)
+  notif(config: NotificationConfig) {
+    if (config.show) {
+      setTimeout(() => {
+        this.subject.next({ show: false });
+      }, config.duration || 4.5);
     }
     this.subject.next(config);
   }
 
-  success(config: Omit<NotificationConfig, 'status'| 'show'>){
+  success(config: Omit<NotificationConfig, 'status' | 'show'>) {
     this.notif({
       ...config,
       show: true,
-      status: 'success'
-    })
+      status: 'success',
+    });
   }
-  info(config: Omit<NotificationConfig, 'status'| 'show'>){
+  info(config: Omit<NotificationConfig, 'status' | 'show'>) {
     this.notif({
       ...config,
       show: true,
-      status: 'info'
-    })
+      status: 'info',
+    });
   }
-  error(config: Omit<NotificationConfig, 'status'| 'show'>){
+  error(config: Omit<NotificationConfig, 'status' | 'show'>) {
     this.notif({
       ...config,
       show: true,
-      status: 'error'
-    })
+      status: 'error',
+    });
   }
-  warning(config: Omit<NotificationConfig, 'status'| 'show'>){
+  warning(config: Omit<NotificationConfig, 'status' | 'show'>) {
     this.notif({
       ...config,
       show: true,
-      status: 'warning'
-    })
+      status: 'warning',
+    });
   }
 
-  close(){
-    this.subject.next({show: false})
+  close() {
+    this.subject.next({ show: false });
   }
 }
