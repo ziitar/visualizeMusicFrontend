@@ -1,0 +1,11 @@
+<div class="login-center">
+  <div class="login-content">
+    <h3 class="login-title">Login</h3>
+    <form [formGroup]="form">
+      <app-form-item key="username" [control]="username" required >
+        <input appInput formControlName="username" [loading]="true"/>
+      </app-form-item>
+    </form>
+    <button (click)="submit()">提交</button>
+  </div>
+</div>

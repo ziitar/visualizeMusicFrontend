@@ -1,0 +1,48 @@
+@import '../themes/default.less';
+@import '../mixin/mixin.less';
+
+.app-input{
+  .default-component();
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid @border-color-base;
+  border-radius: @border-radius-base;
+  height: @height-input-base;
+  line-height: @height-input-base - 2;
+  padding-left: @padding-sm;
+  padding-right: @padding-lg;
+
+  &:focus-visible {
+    border: 1px solid @border-color-base;
+    outline: unset;
+  }
+
+  &-loading {
+    position: relative;
+    &::after{
+      content: '\e614';
+      display: inline-block;
+      font-family: 'iconfont';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 24px;
+      height: 30px;
+      line-height: 30px;
+      color: #fff;
+      font-size: 24px;
+    }
+  }
+
+  &.ng-invalid:not(.ng-untouched){
+    border-color: @error-color;
+  }
+
+  &[disabled],
+  &-disabled {
+    cursor: not-allowed;
+    border: @btn-disable-color;
+    background-color: @btn-disable-bg;
+    border-color: transparent;
+  }
+}

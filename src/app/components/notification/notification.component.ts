@@ -1,4 +1,7 @@
-import { NotificationConfig, NotificationService } from './../../utils/notification.service';
+import {
+  NotificationConfig,
+  NotificationService,
+} from './../../utils/services/notification.service';
 import { Component } from '@angular/core';
 
 @Component({

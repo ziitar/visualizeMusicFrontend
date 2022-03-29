@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BackgroundService } from './utils/background.service';
+import { BackgroundService } from './utils/services/background.service';
 
 @Component({
   selector: 'app-root',

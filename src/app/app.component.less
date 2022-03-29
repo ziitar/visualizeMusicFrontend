@@ -1,26 +1,40 @@
 @import './common/themes/default.less';
 
-.app-background {
+.app-box {
   width: 100%;
   height: 100vh;
   overflow: hidden;
   color: @color-text-primary;
+  position: relative;
 
   .app-background-blur {
     background-color: #fff;
-    width: calc(100% + 4 * @padding-lg);
-    height: calc(100vh + 4 * @padding-lg);
+    width: calc(100% + 6 * @padding-lg);
+    height: calc(100vh + 6 * @padding-lg);
     background-repeat: no-repeat;
     background-position: 50%;
     background-size: cover;
-    padding: 2 * @padding-lg;
-    margin: -2 * @padding-lg;
+    margin: -3 * @padding-lg;
     filter: blur(20px);
 
     .app-background-mask {
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.3);
+    }
+  }
+  .app-content-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    .app-content {
+      width: 100%;
+      height: 100%;
+      padding: @padding-lg;
+      color: @color-text-1;
     }
   }
 }

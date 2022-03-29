@@ -1,5 +1,5 @@
 @import '../../common/themes/default.less';
-@import '../../common/themes/mixin.less';
+@import '../../common/mixin/mixin.less';
 .notification {
   .default-component();
   position: fixed;
@@ -36,13 +36,19 @@
   &.warning .title {
     color: @gold-base;
   }
-  .close {
+  .close{
     position: absolute;
     top: @padding-lg;
     right: @padding-lg;
-    font-size: 20px;
-    line-height: 1;
-    display: inline-block;
-    cursor: pointer;
+    
+    &::after {
+      content: '\e6dd';
+      font-family: 'iconfont';
+      font-size: 20px;
+      line-height: 1;
+      display: inline-block;
+      cursor: pointer;
+      color: @color-text-2;
+    }
   }
 }

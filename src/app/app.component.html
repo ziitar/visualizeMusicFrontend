@@ -1,11 +1,15 @@
 <app-notification></app-notification>
 
-<div class="app-background">
+<div class="app-box">
     <div class="app-background-blur" [style.background-image]="bgUrl">
         <div class="app-background-mask">
-            
+        </div>
+    </div>
+    <div class="app-content-box">
+        <div class="app-content">
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
 
-<router-outlet></router-outlet>
+            
