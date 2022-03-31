@@ -17,22 +17,6 @@
     outline: unset;
   }
 
-  &-loading {
-    position: relative;
-    &::after{
-      content: '\e614';
-      display: inline-block;
-      font-family: 'iconfont';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 24px;
-      height: 30px;
-      line-height: 30px;
-      color: #fff;
-      font-size: 24px;
-    }
-  }
 
   &.ng-invalid:not(.ng-untouched){
     border-color: @error-color;

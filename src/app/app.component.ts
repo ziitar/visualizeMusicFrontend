@@ -8,7 +8,7 @@ import { BackgroundService } from './utils/services/background.service';
 })
 export class AppComponent {
   title = 'visualizeMusicFrontend';
-  bgUrl = 'url("//y.qq.com/music/photo_new/T002R300x300M000000VSc1r2y60EW.jpg?max_age=2592000")';
+  bgUrl: string | undefined;
   constructor(private backgroundService: BackgroundService) {
     this.backgroundService.backgroundUrlObservable.subscribe((url) => {
       this.bgUrl = `url(${url})`;

@@ -1,0 +1,87 @@
+@import '../../styles/themes/default.less';
+
+@span: range(24);
+@col: calc(100% / 24);
+
+.app-form-item {
+  margin-bottom: @margin-lg;
+
+  &-label{
+    color: @color-text-primary;
+    line-height: 32px;
+    font-size: @font-size-base;
+  }
+
+  &-horizontal {
+    display: flex;
+    align-items: top;
+    justify-content: flex-start;
+
+    .app-form-item-label {
+      margin-right: @margin-sm;
+      flex: none;
+      text-align: right;
+    }
+    
+    each(@span, {
+      .app-form-item-label-col-@{value} {
+        width: calc(@col * @value);
+      }
+      .app-form-item-control-col-@{value} {
+        width: calc(@col * @value);
+      }
+    })
+    
+  }
+
+  &-error{
+    color: @error-color;
+  }
+
+  &-control{
+    flex: auto;
+    position: relative;
+
+    .app-form-item-message {
+      position: absolute;
+      top: @height-input-base;
+      left: 0;
+      right: 0;
+      height: @margin-lg;
+      line-height: 1.5;
+      font-size: @font-size-sm;
+      overflow: hidden;
+      white-space: normal;
+      word-break: break-all;
+    }
+
+    .app-form-item-control-loading {
+      position: relative;
+      display: inline-block;
+
+      &::after {
+        content: '\e61d';
+        font-family: 'iconfont';
+        position: absolute;
+        top: calc(-@height-input-base/2 + 3px);
+        left: -@padding-lg;
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        animation: 1s linear 0s infinite forwards loading;
+      }
+    }
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  50%{
+    transform: rotate(180deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}

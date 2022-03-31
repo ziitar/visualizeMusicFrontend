@@ -7,8 +7,11 @@ import { AppComponent } from './app.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { LoginComponent } from './user/login/login.component';
 import { FormItemComponent } from './components/form-item/form-item.component';
-import { FormItemContentDirective } from './utils/directive/form-item-content.directive';
 import { InputDirective } from './components/input/input.directive';
+import { ButtonComponent } from './components/button/button.component';
+import { LayoutComponent as UserLayout } from './user/layout/layout.component';
+import { RegisterComponent } from './user/register/register.component';
+import { LayoutComponent as MainLayout } from './main/layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +19,11 @@ import { InputDirective } from './components/input/input.directive';
     NotificationComponent,
     LoginComponent,
     FormItemComponent,
-    FormItemContentDirective,
     InputDirective,
+    ButtonComponent,
+    UserLayout,
+    RegisterComponent,
+    MainLayout,
   ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
   providers: [httpInjectable],

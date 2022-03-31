@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less'],
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.less'],
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   username: FormControl = new FormControl(null, [
     Validators.required,
     (control) => {
@@ -17,9 +17,11 @@ export class LoginComponent implements OnInit {
     },
   ]);
   password = new FormControl('');
+  repassword = new FormControl('');
   form: FormGroup = new FormGroup({
     username: this.username,
     password: this.password,
+    repassword: this.repassword,
   });
 
   constructor() {}

@@ -1,17 +1,29 @@
 
-<div [ngClass]="{error: formControl.invalid}">
-  <label [for]="key"></label>
-  <ng-content [key]="key" [disable]="formControl.disabled" [loading]="formControl.pending"></ng-content>
-  <div *ngIf="formControl.invalid && (formControl.dirty || formControl.touched) && formControl.errors">
-    <span *ngIf="formControl.errors['required']">此项必填</span>
-    <span *ngIf="formControl.errors['min']">请输入大于等于{{formControl.errors['min'].min}}的数值</span>
-    <span *ngIf="formControl.errors['max']">请输入小于等于{{formControl.errors['max'].max}}的数值</span>
-    <span *ngIf="formControl.errors['email']">请输入有效的邮箱</span>
-    <span *ngIf="formControl.errors['minlength']">至少应有{{formControl.errors['minlength'].requiredLength}}个字符</span>
-    <span *ngIf="formControl.errors['maxlength']">至少应有{{formControl.errors['maxlength'].requiredLength}}个字符</span>
-    <span *ngIf="formControl.errors['pattern']">正则校验失败({{formControl.errors['pattern'].requiredPattern}}})</span>
-    <span *ngIf="errors && errors.length">
-      <span *ngFor="let error of errors">{{error}}</span>
-    </span>
+<div 
+  class="app-form-item" 
+  [ngClass]="{
+    'app-form-item-error': isInvalid, 
+    'app-form-item-horizontal': layout === 'horizontal',
+    'app-form-item-vertical': layout === 'vertical'
+  }"
+>
+  <label class="app-form-item-label" [for]="key" [ngClass]="labelClass">{{label}}</label>
+  <div class="app-form-item-control" [ngClass]="controlClass">
+    <ng-content  [key]="key" [disable]="formControl.disabled" [loading]="formControl.pending"></ng-content>
+    <div [ngClass]="{'app-form-item-control-loading': formControl.pending}">
+    </div>
+    <div *ngIf="isInvalid && formControl.errors" class="app-form-item-message">
+      <span *ngIf="formControl.errors['required']">此项必填</span>
+      <span *ngIf="formControl.errors['min']">请输入大于等于{{formControl.errors['min'].min}}的数值</span>
+      <span *ngIf="formControl.errors['max']">请输入小于等于{{formControl.errors['max'].max}}的数值</span>
+      <span *ngIf="formControl.errors['email']">请输入有效的邮箱</span>
+      <span *ngIf="formControl.errors['minlength']">至少应有{{formControl.errors['minlength'].requiredLength}}个字符</span>
+      <span *ngIf="formControl.errors['maxlength']">至少应有{{formControl.errors['maxlength'].requiredLength}}个字符</span>
+      <span *ngIf="formControl.errors['pattern']">正则校验失败({{formControl.errors['pattern'].requiredPattern}}})</span>
+      <span *ngIf="errors && errors.length">
+        <span *ngFor="let error of errors">{{error}}</span>
+      </span>
+    </div>
   </div>
+  
 </div>  

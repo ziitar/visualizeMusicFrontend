@@ -1,11 +1,11 @@
-<div class="login-center">
-  <div class="login-content">
-    <h3 class="login-title">Login</h3>
-    <form [formGroup]="form">
-      <app-form-item key="username" [control]="username" required >
-        <input appInput formControlName="username" [loading]="true"/>
-      </app-form-item>
-    </form>
-    <button (click)="submit()">提交</button>
-  </div>
+<form [formGroup]="form" class="login-form">
+  <app-form-item key="username" [control]="username" required label="用户名" [grid]="{labelCol: 4}">
+    <input appInput formControlName="username" />
+  </app-form-item>
+  <app-form-item key="password" [control]="password" required label="密码" [grid]="{labelCol: 4}">
+    <input appInput formControlName="password" type="password"/>
+  </app-form-item>
+</form>
+<div class="login-footer">
+  <app-button (click)="submit()">登录</app-button>
 </div>

@@ -5,8 +5,7 @@ import { Directive, Input } from '@angular/core';
   host: {
     '[class.app-input]': 'true',
     '[class.app-input-disabled]': 'disabled',
-    '[class.app-input-loading]': 'loading',
-    '[disabled]': 'disabled',
+    '[disabled]': 'disabled || loading',
   },
 })
 export class InputDirective {
