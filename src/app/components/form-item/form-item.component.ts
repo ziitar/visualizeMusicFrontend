@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 interface GridType {
   labelCol?: number;
@@ -12,7 +12,7 @@ interface GridType {
 })
 export class FormItemComponent implements OnInit, OnChanges {
   @Input('key') key!: string;
-  @Input('control') formControl: FormControl = new FormControl();
+  @Input('control') formControl: FormControl | FormGroup = new FormControl();
   @Input() label = '';
   @Input() layout: 'vertical' | 'horizontal' = 'horizontal';
   @Input() grid: GridType | undefined;
@@ -21,6 +21,7 @@ export class FormItemComponent implements OnInit, OnChanges {
   isInvalid = false;
   labelClass = {};
   controlClass = {};
+  isRequired = false;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['grid']) {
@@ -50,5 +51,6 @@ export class FormItemComponent implements OnInit, OnChanges {
       this.isInvalid =
         this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
     });
+    this.isRequired = this.formControl.hasValidator(Validators.required);
   }
 }

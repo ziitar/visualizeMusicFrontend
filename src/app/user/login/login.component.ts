@@ -16,7 +16,10 @@ export class LoginComponent implements OnInit {
       return null;
     },
   ]);
-  password = new FormControl('');
+  password = new FormControl(null, [
+    Validators.required,
+    Validators.pattern('^[\\w_\\-%#@$!*]{6,}$'),
+  ]);
   form: FormGroup = new FormGroup({
     username: this.username,
     password: this.password,

@@ -26,16 +26,8 @@
         height: 0;
         bottom: 0;
         border-color: transparent;
+        border-style: solid;
         border-bottom: 40px solid fade(@table-row-hover-bg, 40);
-      }
-
-      .layout-route-left{
-        left: 0;
-        border-right: 20px solid transparent;
-      }
-      .layout-route-right{
-        right: 0;
-        border-left: 20px solid transparent;
       }
       
       .layout-route{
@@ -53,6 +45,9 @@
     }
     .layout-container{
       padding: @padding-lg;
+      overflow: hidden;
+      height: auto;
+      transition: height 200ms ease-out;
     }
   }
 }

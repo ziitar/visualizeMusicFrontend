@@ -2,17 +2,16 @@
   <div class="layout-content">
     <div class="layout-router">
       <a routerLink="/user/login" #loginLink="routerLinkActive" routerLinkActive="active" class="layout-route">登录</a>
-      <a routerLink="/user/register" #registerLink="routerLinkActive" class="layout-route" routerLinkActive="active">注册</a>
+      <a routerLink="/user/register" class="layout-route" >注册</a>
       <div 
         class="layout-route-background" 
-        [ngClass]="{
-          'layout-route-left': loginLink.isActive,
-          'layout-route-right': registerLink.isActive
-        }"
+        [@switchTitle]="loginLink.isActive? 'left': 'right'"
       ></div>
     </div>
-    <div class="layout-container">
-      <router-outlet></router-outlet>
+    <div class="layout-container" >
+      <div [@switchAnimation]="switchRoute(outlet)">
+        <router-outlet #outlet="outlet"></router-outlet>
+      </div>
     </div>
   </div>
 </div>

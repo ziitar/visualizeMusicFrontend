@@ -16,13 +16,35 @@ export class RegisterComponent implements OnInit {
       return null;
     },
   ]);
-  password = new FormControl('');
-  repassword = new FormControl('');
-  form: FormGroup = new FormGroup({
-    username: this.username,
-    password: this.password,
-    repassword: this.repassword,
-  });
+  password = new FormControl(null, [
+    Validators.required,
+    Validators.pattern('^[\\w_\\-%#@$!*]{6,}$'),
+  ]);
+  repassword = new FormControl(null, [
+    Validators.required,
+    Validators.pattern('^[\\w_\\-%#@$!*]{6,}$'),
+  ]);
+  form: FormGroup = new FormGroup(
+    {
+      username: this.username,
+      password: this.password,
+      repassword: this.repassword,
+    },
+    {
+      validators: (controls) => {
+        const password = controls.get('password');
+        const repassword = controls.get('repassword');
+        if (password?.status === 'VALID' && repassword?.status === 'VALID') {
+          if (password.value == repassword.value) {
+            return null;
+          }
+          repassword.setErrors({ 'custom-password': '两次输入密码不一致,请修改' });
+          return { 'custom-password': '两次输入密码不一致,请修改' };
+        }
+        return null;
+      },
+    },
+  );
 
   constructor() {}
 

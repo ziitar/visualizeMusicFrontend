@@ -10,6 +10,13 @@
     color: @color-text-primary;
     line-height: 32px;
     font-size: @font-size-base;
+    white-space: nowrap;
+    overflow: hidden;
+
+    .app-form-item-required{
+      color: fade(@error-color, 60);
+      margin-right: @margin-xss;
+    }
   }
 
   &-horizontal {

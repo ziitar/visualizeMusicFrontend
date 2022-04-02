@@ -28,6 +28,12 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    '@typescript-eslint/no-floating-promises': 'warn'
+    '@typescript-eslint/no-floating-promises': 'warn',
+    "@typescript-eslint/unbound-method": [
+      "error",
+      {
+        "ignoreStatic": true
+      }
+    ]
   },
 };

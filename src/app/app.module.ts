@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { httpInjectable } from './utils/services/http-injectable.service';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,7 +26,7 @@ import { LayoutComponent as MainLayout } from './main/layout/layout.component';
     RegisterComponent,
     MainLayout,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, BrowserAnimationsModule],
   providers: [httpInjectable],
   bootstrap: [AppComponent],
 })
