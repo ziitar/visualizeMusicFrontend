@@ -10,14 +10,18 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
 import { ResponseJSONType } from './httpResponseJSON';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
-export class httpInjectable implements HttpInterceptor {
+export class HttpInjectable implements HttpInterceptor {
   constructor(private notification: NotificationService) {}
 
   intercept<T = any, R = any>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<R>> {
+    const cloneReq = req.clone({
+      url: `${environment.service}${req.url}`,
+    });
     return next
-      .handle(req)
+      .handle(cloneReq)
       .pipe(map((event) => this.handleMapResponseBody(event, req.responseType)));
   }
 
@@ -34,7 +38,7 @@ export class httpInjectable implements HttpInterceptor {
             return event;
           case 'json':
           default: {
-            const body = JSON.parse(event.body as string) as ResponseJSONType;
+            const body = event.body as ResponseJSONType;
             if (body.code >= 200 && body.code < 300) {
               return event.clone({ body });
             } else {

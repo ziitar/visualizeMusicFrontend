@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { NotificationService } from './../../utils/services/notification.service';
+import { UserService } from './../user.service';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MD5 } from 'crypto-js';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   username: FormControl = new FormControl(null, [
     Validators.required,
     (control) => {
@@ -25,12 +28,14 @@ export class LoginComponent implements OnInit {
     password: this.password,
   });
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor(private user: UserService, private notification: NotificationService) {}
 
   submit() {
-    console.log('run');
-    console.log(this.form.value, this.form);
+    if (this.form.valid) {
+      this.user.login({
+        username: this.username.value,
+        password: MD5(this.password.value).toString(),
+      });
+    }
   }
 }

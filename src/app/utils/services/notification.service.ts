@@ -23,7 +23,7 @@ export class NotificationService {
     if (config.show) {
       setTimeout(() => {
         this.subject.next({ show: false });
-      }, config.duration || 4.5);
+      }, config.duration || 4500);
     }
     this.subject.next(config);
   }

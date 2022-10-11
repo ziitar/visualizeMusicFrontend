@@ -2,6 +2,9 @@
   <app-form-item key="username" [control]="username" required label="用户名" [grid]="{labelCol: 6}">
     <input appInput formControlName="username" />
   </app-form-item>
+  <app-form-item key="email" [control]="email" label="邮箱" [grid]="{labelCol: 6}">
+    <input appInput formControlName="email" />
+  </app-form-item>
   <app-form-item key="password" [control]="password" required label="密码" [grid]="{labelCol: 6}">
     <input appInput formControlName="password" type="password" />
   </app-form-item>
