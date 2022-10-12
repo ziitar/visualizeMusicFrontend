@@ -53,13 +53,14 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submit() {
+  submit = () => {
     if (this.form.valid) {
-      this.user.register({
+      return this.user.register({
         username: this.username.value,
         password: MD5(this.password.value).toString(),
         email: this.email.value,
       });
     }
-  }
+    return;
+  };
 }

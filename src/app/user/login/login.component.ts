@@ -28,14 +28,15 @@ export class LoginComponent {
     password: this.password,
   });
 
-  constructor(private user: UserService, private notification: NotificationService) {}
+  constructor(private user: UserService) {}
 
-  submit() {
+  submit = () => {
     if (this.form.valid) {
-      this.user.login({
+      return this.user.login({
         username: this.username.value,
         password: MD5(this.password.value).toString(),
       });
     }
-  }
+    return;
+  };
 }

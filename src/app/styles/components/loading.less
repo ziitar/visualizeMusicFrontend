@@ -1,0 +1,37 @@
+@import '../themes/default.less';
+@import '../animation/loading.less';
+
+.app-loading{
+    position: relative;
+    display: inline-block;
+    cursor: not-allowed;
+
+    &::after {
+        content: '\e61d';
+        font-family: 'iconfont';
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        color: #fff;
+        text-align: center;
+        font-size: inherit;
+        animation: 1s linear 0s infinite forwards loading;
+      }
+}
+
+.app-inline-loading {
+    cursor: not-allowed;
+
+    &::after {
+        content: '\e61d';
+        display: inline-block;
+        margin-left: @padding-sm;
+        font-family: 'iconfont';
+        color: #fff;
+        text-align: center;
+        font-size: inherit;
+        animation: 1s linear 0s infinite forwards loading;
+      }
+}

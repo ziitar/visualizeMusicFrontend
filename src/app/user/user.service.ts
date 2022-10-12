@@ -28,7 +28,7 @@ export class UserService {
   }
 
   login(user: { username: string; password: string }) {
-    this.http
+    return this.http
       .post<ResponseJSONType<userInfo | undefined>>('/user/login', user)
       .subscribe((data) => {
         if (data.status === 1) {
@@ -50,7 +50,7 @@ export class UserService {
   }
 
   register(user: { username: string; password: string; email?: string }) {
-    this.http
+    return this.http
       .post<ResponseJSONType<userInfo | undefined>>('/user/register', user)
       .subscribe((data) => {
         if (data.status === 1) {

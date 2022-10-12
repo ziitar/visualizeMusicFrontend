@@ -18,6 +18,7 @@ import { ColDirective } from './components/layout/col.directive';
 import { UserService } from './user/user.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NotificationService } from './utils/services/notification.service';
+import { LoadingDirective } from './components/loading/loading.directive';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NotificationService } from './utils/services/notification.service';
     UserLayout,
     RegisterComponent,
     MainLayout,
+    LoadingDirective,
   ],
   imports: [
     BrowserModule,

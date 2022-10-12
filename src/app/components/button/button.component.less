@@ -10,23 +10,6 @@
   border-radius: 4px;
   cursor: pointer;
   color: @color-text-primary;
-  
-  &-loading{
-    padding-right: @padding-lg;
-    position: relative;
-
-    &::after {
-      content: '\e61d';
-      position: absolute;
-      top: 0;
-      right: 3px;
-      font-family: 'iconfont';
-      color: #fff;
-      text-align: center;
-      font-size: 18px;
-      animation: 1s linear 0s infinite forwards loading;
-    }
-  }
 
   &[disabled],
   &-disabled {

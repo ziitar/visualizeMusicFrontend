@@ -1,3 +1,3 @@
-<button class="app-button" [ngClass]="{'app-button-loading': localLoading}">
-  <ng-content></ng-content>
+<button class="app-button" (click)="onClick($event)" [ngClass]="{'app-button-disabled': loading || localLoading || disabled}">
+  <span appLoading [loading]="loading || localLoading" [inline]="true"><ng-content></ng-content></span>
 </button>
