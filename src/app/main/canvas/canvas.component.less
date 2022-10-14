@@ -1,4 +1,15 @@
-.app-canvas,
+@import '../../styles/themes/default.less';
+
+.canvas-box {
+  width: 100%;
+  height: 100%;
+  padding: @padding-lg;
+  position: relative;
+  .close::after {
+    font-family: 'iconfont';
+    content: '';
+  }
+}
 .canvas {
   width: 100%;
   height: 100%;

@@ -2,10 +2,17 @@
 @import '../mixin/mixin.less';
 
 @span: range(24);
+@aligns: left, center, right;
 @col: calc(100% / 24);
 
 .app-col {
   display: inline-block;
+
+  each(@aligns, {
+    &.app-col-align-@{value}{
+      text-align: @value;
+    }
+  });
 
   each(@span, {
         &.app-col-span-@{value} {

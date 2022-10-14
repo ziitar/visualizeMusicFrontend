@@ -1,3 +1,4 @@
+import { AnalysisData } from './../app/utils/services/analyser.service';
 export default class CanvasContent {
   private canvas;
   private ctx;
@@ -20,32 +21,46 @@ export default class CanvasContent {
     this.canvas.height = height;
   }
 
-  draw(arr: Uint8Array) {
+  draw(analysisData: AnalysisData) {
     if (this.ctx) {
-      this.ctx.clearRect(0, 0, this.width, this.height);
-      const padding = 20;
-      const splitArea = Math.floor((this.width - padding * 2) / arr.byteLength);
-      this.ctx.lineWidth = splitArea - 2;
-      this.ctx.lineCap = 'round';
-      const bottom = this.height - 300;
-      this.ctx.strokeStyle = '#000';
-      this.ctx.beginPath();
-      let num = 0;
-      for (const i of arr) {
-        this.ctx.moveTo(padding + num * splitArea, bottom);
-        this.ctx.lineTo(padding + num * splitArea, bottom - 5 - i);
-        num++;
+      if (analysisData.frequency) {
+        this.drawFrequenecy(this.ctx, analysisData.frequency);
       }
-      this.ctx.stroke();
-      this.ctx.lineWidth = 2;
-      this.ctx.beginPath();
-      let num2 = 0;
-      this.ctx.moveTo(padding, bottom + 25);
-      for (const i of arr) {
-        this.ctx.lineTo(padding + num2 * splitArea, bottom + 25 + i);
-        num2++;
+      if (analysisData.floatFrequency) {
+        this.drawFloatFrequency(this.ctx, analysisData.floatFrequency);
       }
-      this.ctx.stroke();
+    }
+  }
+
+  drawFrequenecy(ctx: CanvasRenderingContext2D, arr: Uint8Array) {
+    ctx.clearRect(0, 0, this.width, this.height);
+    const padding = 20;
+    const splitArea = Math.floor((this.width - padding * 2) / arr.byteLength);
+    ctx.lineWidth = splitArea - 2;
+    ctx.lineCap = 'round';
+    const bottom = this.height - 300;
+    ctx.strokeStyle = '#000';
+    ctx.beginPath();
+    let num = 0;
+    ctx.moveTo(padding, bottom);
+    ctx.lineTo(this.width - padding, bottom);
+    for (const i of arr) {
+      ctx.moveTo(padding + num * splitArea, bottom);
+      ctx.lineTo(padding + num * splitArea, bottom - i);
+      num++;
+    }
+    ctx.stroke();
+  }
+
+  drawFloatFrequency(ctx: CanvasRenderingContext2D, arr: Float32Array) {
+    ctx.clearRect(0, 0, this.width, this.height);
+    const barWidth = (this.width / arr.byteLength) * 2.5;
+    let posX = 0;
+    for (let i = 0; i < arr.byteLength; i++) {
+      const barHeight = (arr[i] + 140) * 2;
+      ctx.fillStyle = `rgb(${Math.floor(barHeight + 100)}, 50, 50)`;
+      ctx.fillRect(posX, this.height - barHeight / 2, barWidth, barHeight / 2);
+      posX += barWidth + 1;
     }
   }
 }

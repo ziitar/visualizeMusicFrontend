@@ -19,6 +19,7 @@ export class HttpInjectable implements HttpInterceptor {
   intercept<T = any, R = any>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<R>> {
     const cloneReq = req.clone({
       url: `${environment.service}${req.url}`,
+      withCredentials: true,
     });
     return next
       .handle(cloneReq)

@@ -1,12 +1,13 @@
-import { Directive, Input, ElementRef, OnInit } from '@angular/core';
+import { Directive, Input, ElementRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[appCol]',
   host: {
     '[class.app-col]': 'true',
+    '[style.flex]': 'flex',
   },
 })
-export class ColDirective implements OnInit {
+export class ColDirective implements OnInit, OnChanges {
   @Input() xxl = 0;
   @Input() xl = 0;
   @Input() lg = 0;
@@ -14,9 +15,19 @@ export class ColDirective implements OnInit {
   @Input() sm = 0;
   @Input() xs = 0;
   @Input() span = 0;
+  @Input() algin = 'left';
+  @Input() flex: string | undefined;
   constructor(private el: ElementRef<{ className: string }>) {}
 
   ngOnInit(): void {
+    this.setSize();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setSize();
+  }
+
+  setSize() {
     if (this.xxl > 0) {
       this.el.nativeElement.className += ` app-col-xxl-${this.xxl}`;
     }
@@ -38,5 +49,6 @@ export class ColDirective implements OnInit {
     if (this.span > 0) {
       this.el.nativeElement.className += ` app-col-span-${this.span}`;
     }
+    this.el.nativeElement.className += ` app-col-align-${this.algin}`;
   }
 }

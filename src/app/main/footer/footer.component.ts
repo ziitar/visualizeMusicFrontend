@@ -1,6 +1,9 @@
+import { AnalysisData } from './../../utils/services/analyser.service';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { AnalyserService } from 'src/app/utils/services/analyser.service';
 import AudioContent from 'src/utils/audioContext';
+
+type AnalysisFlag = Partial<Record<keyof AnalysisData, boolean>>;
 
 @Component({
   selector: 'app-footer',
@@ -12,7 +15,7 @@ export class FooterComponent implements OnInit {
   audioContext: AudioContent;
   shouldAnalyser = false;
   constructor(private el: ElementRef<HTMLElement>, private analyser: AnalyserService) {
-    this.audioContext = new AudioContent(64);
+    this.audioContext = new AudioContent(512);
   }
 
   ngOnInit(): void {
@@ -22,19 +25,35 @@ export class FooterComponent implements OnInit {
 
   handlePlay() {
     this.shouldAnalyser = true;
-    this.animateExec();
+    console.log('play');
+    this.animateExec({ frequency: true });
   }
 
   handlePause() {
     this.shouldAnalyser = false;
   }
 
-  animateExec() {
+  animateExec(analysisFlag: AnalysisFlag) {
     const step = () => {
-      const data = this.audioContext.getAnalyserData();
-      if (data) {
-        this.analyser.sendData(data);
+      let data, data1, data2, data3;
+      if (analysisFlag.frequency) {
+        data = this.audioContext.getAnalyserData();
       }
+      if (analysisFlag.timeDomain) {
+        data1 = this.audioContext.getAnalyserDomainData();
+      }
+      if (analysisFlag.floatFrequency) {
+        data2 = this.audioContext.getFloatAnalyserData();
+      }
+      if (analysisFlag.floatTimeDomain) {
+        data3 = this.audioContext.getFloatAnalyserDomainData();
+      }
+      this.analyser.sendData({
+        frequency: data,
+        timeDomain: data1,
+        floatFrequency: data2,
+        floatTimeDomain: data3,
+      });
       if (this.shouldAnalyser) {
         requestAnimationFrame(step);
       }

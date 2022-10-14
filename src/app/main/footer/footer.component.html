@@ -1,5 +1,14 @@
 <footer class="footer">
     <div class="footer-content">
-        <audio (play)="handlePlay()" (pause)="handlePause()" id="audio" src="../../../assets/光亮.mp3" controls></audio>
+        <div appRow [flex]="true">
+            <div appCol [span]="8" >head</div>
+            <div appCol [span]="8" [algin]="'center'">
+                <a [routerLink]="'visualize'" >展开</a>
+            </div>
+            <div appCol [span]="8" [algin]="'right'">time
+
+                <audio (play)="handlePlay()" (pause)="handlePause()" id="audio" src="../../../assets/光亮.mp3" controls></audio>
+            </div>
+        </div>
     </div>
 </footer>

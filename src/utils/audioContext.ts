@@ -27,10 +27,28 @@ export default class AudioContent {
     }
     return;
   }
+
+  getFloatAnalyserData() {
+    if (this.audioSource) {
+      const arr = new Float32Array(this.analyser.frequencyBinCount);
+      this.analyser.getFloatFrequencyData(arr);
+      return arr;
+    }
+    return;
+  }
+
   getAnalyserDomainData() {
     if (this.audioSource) {
       const arr = new Uint8Array(this.analyser.frequencyBinCount);
       this.analyser.getByteTimeDomainData(arr);
+      return arr;
+    }
+    return;
+  }
+  getFloatAnalyserDomainData() {
+    if (this.audioSource) {
+      const arr = new Float32Array(this.analyser.frequencyBinCount);
+      this.analyser.getFloatTimeDomainData(arr);
       return arr;
     }
     return;

@@ -22,6 +22,8 @@ import { LoadingDirective } from './components/loading/loading.directive';
 import { FooterComponent } from './main/footer/footer.component';
 import { AnalyserService } from './utils/services/analyser.service';
 import { CanvasComponent } from './main/canvas/canvas.component';
+import { ContentComponent } from './main/content/content/content.component';
+import { SheetComponent } from './main/content/sheet/sheet.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { CanvasComponent } from './main/canvas/canvas.component';
     LoadingDirective,
     FooterComponent,
     CanvasComponent,
+    ContentComponent,
+    SheetComponent,
   ],
   imports: [
     BrowserModule,

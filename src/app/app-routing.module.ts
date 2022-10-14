@@ -1,3 +1,5 @@
+import { ContentComponent } from './main/content/content/content.component';
+import { CanvasComponent } from './main/canvas/canvas.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './user/login/login.component';
@@ -29,7 +31,17 @@ const routes: Routes = [
   {
     path: '',
     component: MainLayout,
-    children: [],
+    children: [
+      {
+        path: 'visualize',
+        component: CanvasComponent,
+      },
+      {
+        path: 'content',
+        component: ContentComponent,
+      },
+      { path: '', pathMatch: 'full', redirectTo: 'content' },
+    ],
   },
 ];
 
