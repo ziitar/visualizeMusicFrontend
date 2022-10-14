@@ -19,6 +19,9 @@ import { UserService } from './user/user.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NotificationService } from './utils/services/notification.service';
 import { LoadingDirective } from './components/loading/loading.directive';
+import { FooterComponent } from './main/footer/footer.component';
+import { AnalyserService } from './utils/services/analyser.service';
+import { CanvasComponent } from './main/canvas/canvas.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,8 @@ import { LoadingDirective } from './components/loading/loading.directive';
     RegisterComponent,
     MainLayout,
     LoadingDirective,
+    FooterComponent,
+    CanvasComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +51,7 @@ import { LoadingDirective } from './components/loading/loading.directive';
     NotificationService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInjectable, multi: true },
     UserService,
+    AnalyserService,
   ],
   bootstrap: [AppComponent],
 })

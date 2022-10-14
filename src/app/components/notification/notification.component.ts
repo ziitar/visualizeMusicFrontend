@@ -2,21 +2,22 @@ import {
   NotificationConfig,
   NotificationService,
 } from './../../utils/services/notification.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.less'],
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnDestroy {
   title = '';
   message = '';
   status: NotificationConfig['status'] = 'info';
   show = false;
+  subscription;
 
   constructor(private notification: NotificationService) {
-    notification.observableNotification.subscribe((observer) => {
+    this.subscription = notification.observableNotification.subscribe((observer) => {
       if (observer.show) {
         this.title = observer.title;
         this.message = observer.message;
@@ -33,5 +34,9 @@ export class NotificationComponent {
 
   handleClose() {
     this.notification.close();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
