@@ -3,9 +3,9 @@
     <input appInput formControlName="username" />
   </app-form-item>
   <app-form-item key="password" [control]="password" required label="密码" [grid]="{labelCol: 4}">
-    <input appInput formControlName="password" type="password"/>
+    <input appInput formControlName="password" type="password" (keydown)="handleKeyDown($event)"/>
   </app-form-item>
 </form>
 <div class="login-footer">
-  <app-button [handleClick]="submit" >登录</app-button>
+  <app-button [handleClick]="submit" [loading]="loading">登录</app-button>
 </div>

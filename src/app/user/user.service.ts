@@ -1,39 +1,57 @@
 import { NotificationService } from './../utils/services/notification.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { userInfo } from './user';
+import { UserInfo } from './user';
 import { ResponseJSONType } from '../utils/services/httpResponseJSON';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+
+export interface UserServiceMsg {
+  isLogin: boolean;
+  user: UserInfo | undefined;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private subject = new Subject<UserServiceMsg>();
+
+  isLoginObservable = this.subject.asObservable();
   isLogin = false;
+  user: UserInfo | undefined;
   NMCLogin = false;
-  user: userInfo | undefined;
   constructor(
     private http: HttpClient,
     private notification: NotificationService,
     private router: Router,
-  ) {}
+  ) {
+    this.isLoginObservable.subscribe((data) => {
+      this.isLogin = data.isLogin;
+      this.user = data.user;
+    });
+  }
 
   getLogin() {
-    this.http.get<ResponseJSONType<userInfo | undefined>>('/user/user').subscribe((data) => {
-      if (data) {
-        this.user = data.result;
-        this.isLogin = true;
+    this.http.get<ResponseJSONType<UserInfo | undefined>>('/user/user').subscribe((data) => {
+      if (data.result) {
+        this.subject.next({
+          user: data.result,
+          isLogin: true,
+        });
       }
     });
   }
 
   login(user: { username: string; password: string }) {
     return this.http
-      .post<ResponseJSONType<userInfo | undefined>>('/user/login', user)
+      .post<ResponseJSONType<UserInfo | undefined>>('/user/login', user)
       .subscribe((data) => {
         if (data.status === 1) {
-          this.user = data.result;
-          this.isLogin = true;
+          this.subject.next({
+            user: data.result,
+            isLogin: true,
+          });
           this.notification.success({
             title: '登录成功',
             message: `欢迎${data.result?.username || ''}`,
@@ -51,11 +69,13 @@ export class UserService {
 
   register(user: { username: string; password: string; email?: string }) {
     return this.http
-      .post<ResponseJSONType<userInfo | undefined>>('/user/register', user)
+      .post<ResponseJSONType<UserInfo | undefined>>('/user/register', user)
       .subscribe((data) => {
         if (data.status === 1) {
-          this.user = data.result;
-          this.isLogin = true;
+          this.subject.next({
+            user: data.result,
+            isLogin: true,
+          });
           this.notification.success({
             title: '创建成功',
             message: `欢迎${data.result?.username || ''}`,

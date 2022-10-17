@@ -1,4 +1,3 @@
-import { NotificationService } from './../../utils/services/notification.service';
 import { UserService } from './../user.service';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -29,6 +28,22 @@ export class LoginComponent {
   });
 
   constructor(private user: UserService) {}
+
+  loading = false;
+
+  handleKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.loading = true;
+      const sub = this.submit();
+      if (sub) {
+        sub.add(() => {
+          this.loading = false;
+        });
+      } else {
+        this.loading = false;
+      }
+    }
+  }
 
   submit = () => {
     if (this.form.valid) {

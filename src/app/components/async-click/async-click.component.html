@@ -1,0 +1,8 @@
+<ng-container *ngIf="!loading">
+    <div [class]="{asyncClickInline: inline}">
+        <ng-content></ng-content>
+    </div>
+</ng-container>
+<ng-container *ngIf="loading">
+    <span appLoading [loading]="loading" [inline]="inline"></span>
+</ng-container>

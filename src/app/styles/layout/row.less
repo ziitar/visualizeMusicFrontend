@@ -1,6 +1,8 @@
 @import '../themes/default.less';
 @import '../mixin/mixin.less';
 
+@range: range(100);
+
 .app-row {
   .default-component();
   display: block;
@@ -10,4 +12,22 @@
     display: flex;
     flex-wrap: wrap;
   }
+
+  &.app-row-flex-nowrap {
+    flex-wrap: nowrap;
+  }
+  each(@range, {
+    &.app-row-gutter-@{value} {
+      &> .app-col {
+        margin-left: (@value / 2px);
+        margin-right: (@value / 2px) ;
+        &:first-child{
+          margin-left: 0
+        }
+        &:last-child{
+          margin-right: 0
+        }
+      }
+    }
+  });
 }

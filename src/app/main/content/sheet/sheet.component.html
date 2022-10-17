@@ -1,3 +1,29 @@
-<ul *ngFor="let sheet of sheets">
-    <li>{{sheet.sheetName}}</li>
-</ul>
+<div *ngIf="isLogin">
+  <div *ngIf="sheets.length">
+    <ul *ngFor="let sheet of sheets">
+      <li class="sheet">
+        {{ sheet.sheetName }}
+        <app-async-click
+          class="sheetRight"
+          [param]="{ id: sheet.id }"
+          [handleClick]="handleDelete"
+          [inline]="true"
+        >
+          <span class="delete"></span>
+        </app-async-click>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!creating">
+    <div (click)="creating = true">创建歌单</div>
+  </div>
+  <div *ngIf="creating" appRow [flex]="true" [flexNowrap]="true" [gutter]="4">
+    <input size="5" appInput appCol [flex]="'auto'" />
+    <app-button appCol [flex]="'none'" [handleClick]="handleCreate">创建</app-button>
+    <app-button appCol [flex]="'none'" (click)="creating = false">取消</app-button>
+  </div>
+</div>
+<div *ngIf="!isLogin">
+  <a routerLink="/user/login">登录</a>
+  <a routerLink="/user/register">注册</a>
+</div>

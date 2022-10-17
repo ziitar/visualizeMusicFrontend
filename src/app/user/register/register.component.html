@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="register-form" autocomplete="new-password">
+<form [formGroup]="form" class="register-form" autocomplete="new-password" (keydown)="handleKeyDown($event)">
   <app-form-item key="username" [control]="username" required label="用户名" [grid]="{labelCol: 6}">
     <input appInput formControlName="username" />
   </app-form-item>
@@ -13,5 +13,5 @@
   </app-form-item>
 </form>
 <div class="register-footer">
-  <app-button [handleClick]="submit">注册</app-button>
+  <app-button [handleClick]="submit" [loading]="loading">注册</app-button>
 </div>

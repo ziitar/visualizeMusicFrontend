@@ -5,9 +5,10 @@ import {
   HttpHandler,
   HttpRequest,
   HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
 import { ResponseJSONType } from './httpResponseJSON';
 import { environment } from 'src/environments/environment';
@@ -21,9 +22,39 @@ export class HttpInjectable implements HttpInterceptor {
       url: `${environment.service}${req.url}`,
       withCredentials: true,
     });
-    return next
-      .handle(cloneReq)
-      .pipe(map((event) => this.handleMapResponseBody(event, req.responseType)));
+    return next.handle(cloneReq).pipe(
+      map((event) => this.handleMapResponseBody(event, req.responseType)),
+      catchError((err: HttpErrorResponse, caugth) => {
+        console.log(err, caugth);
+        let title = '接口请求报错',
+          property: 'error' | 'warning' = 'error',
+          msg = '';
+        const error = err.error as ResponseJSONType<any> | undefined;
+        if (error) {
+          if (error.code >= 300 && error.code < 400) {
+            title = '重定向';
+            property = 'warning';
+          } else if (error.code >= 400 && error.code < 500) {
+            title = '客户端异常';
+            msg = error.msg || '请求接口或参数异常';
+          } else {
+            title = '服务端异常';
+            switch (error.code) {
+              case 500:
+                msg = error.msg || '服务器或数据库异常';
+                break;
+              default:
+                msg = '服务器或数据库异常';
+            }
+          }
+          this.notification[property]({
+            title,
+            message: msg || '',
+          });
+        }
+        throw err;
+      }),
+    );
   }
 
   private handleMapResponseBody(
@@ -61,44 +92,8 @@ export class HttpInjectable implements HttpInterceptor {
             }
           }
         }
-      } else {
-        let title = '接口请求报错',
-          property: 'error' | 'warning' = 'error',
-          msg = '',
-          body: ResponseJSONType | undefined = undefined;
-        if (event.body && typeof event.body === 'string') {
-          body = JSON.parse(event.body) as ResponseJSONType;
-        }
-        if (event.status >= 300 && event.status < 400) {
-          title = '重定向';
-          property = 'warning';
-        } else if (event.status >= 400 && event.status < 500) {
-          title = '客户端异常';
-          switch (event.status) {
-            case 400:
-              msg = body?.msg || '请求接口或参数异常';
-              break;
-            default:
-              msg = '请求接口或参数异常';
-          }
-        } else {
-          title = '服务端异常';
-          switch (event.status) {
-            case 500:
-              msg = body?.msg || '服务器或数据库异常';
-              break;
-            default:
-              msg = '服务器或数据库异常';
-          }
-        }
-        this.notification[property]({
-          title,
-          message: msg || '',
-        });
-        return event.clone({ body: undefined });
       }
-    } else {
-      return event;
     }
+    return event;
   }
 }

@@ -1,0 +1,24 @@
+@import '../../../styles/themes/default.less';
+
+.sheet {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  padding: @padding-sm;
+  > * {
+    vertical-align: bottom;
+  }
+
+  .sheetRight {
+    float: right;
+  }
+
+  .delete {
+    display: none;
+  }
+  &:hover {
+    .delete {
+      display: inline-block;
+    }
+  }
+}

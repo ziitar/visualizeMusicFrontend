@@ -24,6 +24,7 @@ import { AnalyserService } from './utils/services/analyser.service';
 import { CanvasComponent } from './main/canvas/canvas.component';
 import { ContentComponent } from './main/content/content/content.component';
 import { SheetComponent } from './main/content/sheet/sheet.component';
+import { AsyncClickComponent } from './components/async-click/async-click.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SheetComponent } from './main/content/sheet/sheet.component';
     CanvasComponent,
     ContentComponent,
     SheetComponent,
+    AsyncClickComponent,
   ],
   imports: [
     BrowserModule,

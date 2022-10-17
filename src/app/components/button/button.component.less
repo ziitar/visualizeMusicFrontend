@@ -1,7 +1,7 @@
 @import '../../styles/themes/default.less';
 @import '../../styles/mixin/mixin.less';
 
-.app-button{
+.app-button {
   .default-component();
   height: @height-input-base;
   line-height: calc(@height-input-base - 2px);
@@ -10,6 +10,7 @@
   border-radius: 4px;
   cursor: pointer;
   color: @color-text-primary;
+  white-space: nowrap;
 
   &[disabled],
   &-disabled {

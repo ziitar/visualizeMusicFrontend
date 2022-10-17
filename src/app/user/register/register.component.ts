@@ -53,6 +53,22 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  loading = false;
+
+  handleKeyDown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.loading = true;
+      const sub = this.submit();
+      if (sub) {
+        sub.add(() => {
+          this.loading = false;
+        });
+      } else {
+        this.loading = false;
+      }
+    }
+  }
+
   submit = () => {
     if (this.form.valid) {
       return this.user.register({
