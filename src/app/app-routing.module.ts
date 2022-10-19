@@ -1,5 +1,4 @@
-import { ContentComponent } from './main/content/content/content.component';
-import { CanvasComponent } from './main/canvas/canvas.component';
+import { SearchComponent } from './main/content/search/search.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './user/login/login.component';
@@ -33,14 +32,10 @@ const routes: Routes = [
     component: MainLayout,
     children: [
       {
-        path: 'visualize',
-        component: CanvasComponent,
+        path: 'search',
+        component: SearchComponent,
       },
-      {
-        path: 'content',
-        component: ContentComponent,
-      },
-      { path: '', pathMatch: 'full', redirectTo: 'content' },
+      { path: '', pathMatch: 'full', redirectTo: 'search' },
     ],
   },
 ];

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpInjectable } from './utils/services/http-injectable.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ import { CanvasComponent } from './main/canvas/canvas.component';
 import { ContentComponent } from './main/content/content/content.component';
 import { SheetComponent } from './main/content/sheet/sheet.component';
 import { AsyncClickComponent } from './components/async-click/async-click.component';
+import { SearchComponent } from './main/content/search/search.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AsyncClickComponent } from './components/async-click/async-click.compon
     ContentComponent,
     SheetComponent,
     AsyncClickComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +54,7 @@ import { AsyncClickComponent } from './components/async-click/async-click.compon
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [
     NotificationService,

@@ -1,37 +1,46 @@
 @import '../themes/default.less';
 @import '../animation/loading.less';
 
-.app-loading{
-    position: relative;
-    display: inline-block;
-    cursor: not-allowed;
+.app-loading {
+  position: relative;
+  cursor: not-allowed;
 
-    &::after {
-        content: '\e61d';
-        font-family: 'iconfont';
-        display: inline-block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        color: #fff;
-        text-align: center;
-        font-size: inherit;
-        animation: 1s linear 0s infinite forwards loading;
-      }
+  &::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: fade(@color-bg-content, 10%);
+  }
+
+  &::after {
+    content: '\e61d';
+    font-family: 'iconfont';
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    color: #fff;
+    font-size: inherit;
+    line-height: 1;
+    animation: 1s linear 0s infinite forwards loading;
+  }
 }
 
 .app-inline-loading {
-    cursor: not-allowed;
+  cursor: not-allowed;
 
-    &::after {
-        content: '\e61d';
-        display: inline-block;
-        margin-left: @padding-sm;
-        font-family: 'iconfont';
-        color: #fff;
-        text-align: center;
-        font-size: inherit;
-        animation: 1s linear 0s infinite forwards loading;
-      }
+  &::after {
+    content: '\e61d';
+    display: inline-block;
+    margin-left: @padding-sm;
+    font-family: 'iconfont';
+    color: #fff;
+    text-align: center;
+    font-size: inherit;
+    animation: 1s linear 0s infinite forwards loading;
+  }
 }
