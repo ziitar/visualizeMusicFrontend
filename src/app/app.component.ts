@@ -1,6 +1,6 @@
 import { UserService } from './user/user.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BackgroundService } from './utils/services/background.service';
+import { BackgroundService, defaultBG } from './utils/services/background.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { BackgroundService } from './utils/services/background.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'visualizeMusicFrontend';
-  bgUrl: string | undefined;
+  bgUrl = `url(${defaultBG})`;
   subscription;
   constructor(private backgroundService: BackgroundService, private userHttp: UserService) {
     this.subscription = this.backgroundService.backgroundUrlObservable.subscribe((url) => {

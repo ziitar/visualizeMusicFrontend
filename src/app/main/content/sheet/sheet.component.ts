@@ -17,6 +17,12 @@ export class SheetComponent implements OnInit, OnDestroy {
   ) {
     this.subscription = this.user.isLoginObservable.subscribe((data) => {
       this.isLogin = data.isLogin;
+      if (this.isLogin) {
+        this.sheetService.getSheet().add(() => {
+          this.sheetsGetting = false;
+          this.sheets = this.sheetService.sheets;
+        });
+      }
     });
   }
   sheets: Sheet[] = [];
@@ -28,10 +34,6 @@ export class SheetComponent implements OnInit, OnDestroy {
   sheetName = '';
   ngOnInit(): void {
     this.sheetsGetting = true;
-    this.sheetService.getSheet().add(() => {
-      this.sheetsGetting = false;
-      this.sheets = this.sheetService.sheets;
-    });
     this.isLogin = this.user.isLogin;
   }
   ngOnDestroy() {

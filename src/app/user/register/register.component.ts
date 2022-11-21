@@ -72,9 +72,9 @@ export class RegisterComponent implements OnInit {
   submit = () => {
     if (this.form.valid) {
       return this.user.register({
-        username: this.username.value,
-        password: MD5(this.password.value).toString(),
-        email: this.email.value,
+        username: this.username.value as string,
+        password: MD5(this.password.value as string).toString(),
+        email: this.email.value as string,
       });
     }
     return;

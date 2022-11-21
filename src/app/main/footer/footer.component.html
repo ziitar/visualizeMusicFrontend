@@ -1,41 +1,77 @@
 <footer class="footer">
+  <div class="track">
+    <span class="point rotateFill" [style.left]="playMsg.progress + '%'"></span>
+  </div>
+  <input
+    type="range"
+    class="songProgress"
+    min="0"
+    max="100"
+    step="0.01"
+    value="{{ playMsg.progress }}"
+    [disabled]="!playMsg.durationTime"
+    (change)="handleChangeCurrrentTime($event)"
+  />
   <div class="footer-content">
     <div appRow [flex]="true">
       <div appCol [span]="8">
         <div appRow [flex]="true" [gutter]="4">
-          <div appCol [flex]="'0 0 60px'" class="musicHead">
-            <img [attr.src]="" alt="" />
+          <div appCol [flex]="'0 0 60px'" class="musicHead" (click)="handleSwithCanvas()">
+            <img [attr.src]="songMsg?.imgUrl || defaultBG" alt="" />
           </div>
           <div appCol [flex]="'auto'">
             <div class="title">
-              光亮
-              <span class="autum">周深</span>
+              {{ songMsg?.name }}
+              <span class="autum">{{ songMsg?.artists | arrayItemJoin: 'name':',' }}</span>
             </div>
             <div class="operation"></div>
           </div>
         </div>
       </div>
       <div appCol [span]="8" [algin]="'center'">
-        <div class="middle flex-justify-center">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="middle flex-justify-center audioControl">
+          <span class="randomFill smallIcon"></span>
+          <span class="orderFill smallIcon"></span>
+          <span class="loopFill smallIcon"></span>
+          <span class="preFill"></span>
+          <span *ngIf="!shouldAnalyser" class="playFill" (click)="handlePlay()"></span>
+          <span *ngIf="shouldAnalyser" class="pauseFill" (click)="handlePause()"></span>
+          <span class="nextFill"></span>
+          <span class="stopFill" *ngIf="songMsg" (click)="handleStop()"></span>
+          <span class="volume">
+            <span
+              *ngIf="playMsg.volume > 0"
+              class="voiceFillOpen smallIcon"
+              (click)="playMsg.volume = 0"
+            ></span>
+            <span
+              *ngIf="playMsg.volume === 0"
+              class="voiceFillClose smallIcon"
+              (click)="playMsg.volume = 50"
+            ></span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              [value]="playMsg.volume"
+              class="volumeRange"
+              (change)="handleChangeVolume($event)"
+            />
+          </span>
         </div>
       </div>
       <div appCol [span]="8" [algin]="'right'">
         <div class="middle flex-justify-end">
-          <span>00:00/00:00</span>
-          <span>list</span>
+          <span
+            >{{ playMsg.currentTime * 1000 | date: 'mm:ss' }}/{{
+              playMsg.durationTime * 1000 | date: 'mm:ss'
+            }}</span
+          >
+          <span class="playlistFill"></span>
         </div>
       </div>
     </div>
   </div>
-  <audio
-    (play)="handlePlay()"
-    (pause)="handlePause()"
-    id="audio"
-    src="../../../assets/光亮.mp3"
-  ></audio>
+  <audio id="audio" crossorigin="anonymous"></audio>
 </footer>

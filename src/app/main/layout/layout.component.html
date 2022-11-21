@@ -1,7 +1,9 @@
 <main appRow class="main">
-  <div class="content">
+  <div class="content" [appShow]="!canvasSwith">
     <app-content></app-content>
   </div>
-  <app-canvas></app-canvas>
-  <app-footer></app-footer>
+  <div class="canvas" [appShow]="canvasSwith">
+    <app-canvas [show]="canvasSwith" (close)="handleSwithCanvase($event)"></app-canvas>
+  </div>
+  <app-footer (switchCanvas)="handleSwithCanvase(!canvasSwith)"></app-footer>
 </main>

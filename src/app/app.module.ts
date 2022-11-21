@@ -26,6 +26,8 @@ import { ContentComponent } from './main/content/content/content.component';
 import { SheetComponent } from './main/content/sheet/sheet.component';
 import { AsyncClickComponent } from './components/async-click/async-click.component';
 import { SearchComponent } from './main/content/search/search.component';
+import { ShowDirective } from './components/show/show.directive';
+import { ArrayItemJoinPipe } from './utils/pipe/array-item-join.pipe';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { SearchComponent } from './main/content/search/search.component';
     SheetComponent,
     AsyncClickComponent,
     SearchComponent,
+    ShowDirective,
+    ArrayItemJoinPipe,
   ],
   imports: [
     BrowserModule,

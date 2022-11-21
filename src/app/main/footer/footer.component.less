@@ -1,4 +1,7 @@
 @import '../../styles/themes/default.less';
+@import '../../styles/animation/loading.less';
+
+@progress: aqua;
 
 .footer {
   position: fixed;
@@ -8,6 +11,35 @@
   height: @footer-height;
   border-top: 1px solid @color-line-3;
   padding: @padding-sm 0;
+
+  .track {
+    position: absolute;
+    height: 1px;
+    width: calc(100% - 16px);
+    top: 0;
+    left: 0;
+
+    .point {
+      position: absolute;
+      top: 0;
+      left: 0;
+      translate: 0 -50%;
+      font-size: 16px;
+      color: @progress;
+      line-height: 1;
+      animation: 1s linear 0s infinite forwards loading;
+      z-index: 100;
+      pointer-events: none;
+    }
+  }
+
+  .songProgress {
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    top: -1px;
+    margin: 0;
+  }
 
   .footer-content {
     max-width: 1200px;
@@ -28,11 +60,70 @@
     }
 
     .musicHead {
+      cursor: pointer;
+      padding: 0;
+      font-size: 0;
       img {
         height: 100%;
         width: 100%;
         display: inline-block;
       }
+      &:hover {
+        position: relative;
+        &::after {
+          content: '\e8a5';
+          font-family: 'iconfont';
+          font-size: 32px;
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: fade(#000, 60%);
+          text-align: center;
+          line-height: 60px;
+        }
+      }
+    }
+
+    .audioControl {
+      font-size: 32px;
+      color: @color-bg-hover;
+      span {
+        padding: 0 @padding-xss;
+        cursor: pointer;
+      }
+
+      .smallIcon {
+        font-size: 26px;
+      }
+      .volume {
+        position: relative;
+        display: flex;
+        align-items: center;
+        .volumeRange {
+          display: none;
+          position: absolute;
+          width: 80px;
+          left: 92%;
+          padding: @padding-sm 0;
+          &:hover {
+            display: inline-block;
+          }
+        }
+
+        &:hover {
+          .volumeRange {
+            display: inline-block;
+          }
+        }
+      }
+    }
+    .playlistFill {
+      font-size: 24px;
+      color: @color-bg-hover;
+      padding-left: @padding-md;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
@@ -6,21 +6,17 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.less'],
 })
-export class ButtonComponent implements OnChanges {
+export class ButtonComponent {
   @Input() handleClick: ((e: MouseEvent) => Subscription | void) | undefined;
   @Input() disabled = false;
-  @Input() loading = false;
+  @Input()
+  set loading(value: undefined | boolean) {
+    this.localLoading = !!value || this.localLoading;
+  }
   @Output() loadingStatus = new EventEmitter<boolean>();
 
   observabel: Observable<MouseEvent> | undefined;
   localLoading = false;
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['loading']) {
-      const loadingChange = changes['loading'];
-      this.localLoading = !!loadingChange.currentValue || this.localLoading;
-    }
-  }
 
   onClick(e: MouseEvent) {
     if (this.handleClick && typeof this.handleClick === 'function') {

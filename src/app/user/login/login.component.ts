@@ -48,8 +48,8 @@ export class LoginComponent {
   submit = () => {
     if (this.form.valid) {
       return this.user.login({
-        username: this.username.value,
-        password: MD5(this.password.value).toString(),
+        username: this.username.value as string,
+        password: MD5(this.password.value as string).toString(),
       });
     }
     return;
