@@ -30,7 +30,7 @@ export class PlaylistService {
   private playModeSubject = new Subject<PlayModeType>();
   playModeObserver = this.playModeSubject.asObservable();
 
-  private playingIdSubject = new Subject<number>();
+  private playingIdSubject = new Subject<number | undefined>();
   playingIdObserver = this.playingIdSubject.asObservable();
 
   constructor(private songService: SongService, private notification: NotificationService) {}
@@ -154,5 +154,10 @@ export class PlaylistService {
   changePlayMode() {
     this.playMode = ((this.playMode + 1) % 4) as 0 | 1 | 2 | 3;
     this.playModeSubject.next(this.playMode);
+  }
+
+  setPlayingId(id: number | undefined) {
+    this.playingId = id;
+    this.playingIdSubject.next(id);
   }
 }

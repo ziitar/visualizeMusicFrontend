@@ -1,0 +1,36 @@
+<table class="app-table" [class]="{ 'app-table-border': borderd }">
+  <colgroup>
+    <col *ngFor="let column of columns" [attr.width]="column.width" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns" [style.align]="column.align">
+        {{ column.title }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data; let rowIndex = index">
+      <td *ngFor="let column of columns" [style.align]="column.align">
+        <ng-container *ngIf="column.temp && columnTemp">
+          <ng-template
+            [ngTemplateOutlet]="columnTemp[column.key]"
+            [ngTemplateOutletContext]="{
+              data: row,
+              key: column.key,
+              index: rowIndex
+            }"
+          ></ng-template>
+        </ng-container>
+        <ng-container *ngIf="!column.temp">
+          <ng-container *ngIf="!column.render">
+            {{ row[column.key] }}
+          </ng-container>
+          <ng-container *ngIf="column.render">
+            {{ column.render | render: row:column.key:rowIndex }}
+          </ng-container>
+        </ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>

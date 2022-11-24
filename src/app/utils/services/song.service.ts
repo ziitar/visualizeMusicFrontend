@@ -2,12 +2,7 @@ import { ResponseJSONType } from 'src/app/utils/services/httpResponseJSON';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import {
-  isSongDetailType,
-  isSongUrlType,
-  PlayListItemType,
-  PlaylistService,
-} from './playlist.service';
+import { isSongDetailType, isSongUrlType, PlayListItemType } from './playlist.service';
 
 export interface SongDetailType {
   id: number;

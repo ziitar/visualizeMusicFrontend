@@ -1,0 +1,29 @@
+@import '../themes/default.less';
+@import '../mixin/mixin.less';
+
+.app-table {
+  .default-component();
+  text-align: left;
+  border: none;
+  width: 100%;
+  color: @text-color;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-bottom: 1px solid @border-color-split;
+
+  th,
+  td {
+    padding: @padding-xss;
+  }
+  tr {
+    border-bottom: 1px solid @border-color-split;
+  }
+  tbody > tr:last-child {
+    border: none;
+  }
+
+  &.app-table-border {
+    border-color: @border-color-base;
+    border-width: 1px;
+  }
+}

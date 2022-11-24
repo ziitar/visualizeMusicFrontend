@@ -136,6 +136,28 @@
       font-size: 24px;
       color: @color-bg-hover;
       padding-left: @padding-md;
+      position: relative;
+
+      .playlist {
+        display: none;
+        position: absolute;
+        bottom: 95%;
+        right: 0;
+        width: 316px;
+        height: 316px;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: @border-radius-base;
+        padding: @padding-sm;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      &:hover,
+      .playlist:hover {
+        .playlist {
+          display: block;
+        }
+      }
     }
   }
 }

@@ -28,6 +28,9 @@ import { AsyncClickComponent } from './components/async-click/async-click.compon
 import { SearchComponent } from './main/content/search/search.component';
 import { ShowDirective } from './components/show/show.directive';
 import { ArrayItemJoinPipe } from './utils/pipe/array-item-join.pipe';
+import { PlaylistComponent } from './main/content/playlist/playlist.component';
+import { TableComponent } from './components/table/table.component';
+import { RenderPipe } from './utils/pipe/render.pipe';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { ArrayItemJoinPipe } from './utils/pipe/array-item-join.pipe';
     SearchComponent,
     ShowDirective,
     ArrayItemJoinPipe,
+    PlaylistComponent,
+    TableComponent,
+    RenderPipe,
   ],
   imports: [
     BrowserModule,
