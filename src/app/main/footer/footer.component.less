@@ -119,6 +119,18 @@
           }
         }
       }
+      .loopOnce {
+        position: relative;
+        &::before {
+          content: '1';
+          font-size: 10px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          translate: -50% -50%;
+          font-weight: bold;
+        }
+      }
     }
     .playlistFill {
       font-size: 24px;

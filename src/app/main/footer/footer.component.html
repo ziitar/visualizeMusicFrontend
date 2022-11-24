@@ -30,13 +30,26 @@
       </div>
       <div appCol [span]="8" [algin]="'center'">
         <div class="middle flex-justify-center audioControl">
-          <span class="randomFill smallIcon"></span>
-          <span class="orderFill smallIcon"></span>
-          <span class="loopFill smallIcon"></span>
-          <span class="preFill"></span>
+          <span *ngIf="playMode === 1" class="loopFill smallIcon" (click)="changePlayMode()"></span>
+          <span
+            *ngIf="playMode === 2"
+            class="loopFill loopOnce smallIcon"
+            (click)="changePlayMode()"
+          ></span>
+          <span
+            *ngIf="playMode === 3"
+            class="randomFill smallIcon"
+            (click)="changePlayMode()"
+          ></span>
+          <span
+            *ngIf="playMode === 0"
+            class="orderFill smallIcon"
+            (click)="changePlayMode()"
+          ></span>
+          <span class="preFill" (click)="handlePre()"></span>
           <span *ngIf="!shouldAnalyser" class="playFill" (click)="handlePlay()"></span>
           <span *ngIf="shouldAnalyser" class="pauseFill" (click)="handlePause()"></span>
-          <span class="nextFill"></span>
+          <span class="nextFill" (click)="handleNext()"></span>
           <span class="stopFill" *ngIf="songMsg" (click)="handleStop()"></span>
           <span class="volume">
             <span

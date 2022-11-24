@@ -2,6 +2,12 @@ import { ResponseJSONType } from 'src/app/utils/services/httpResponseJSON';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import {
+  isSongDetailType,
+  isSongUrlType,
+  PlayListItemType,
+  PlaylistService,
+} from './playlist.service';
 
 export interface SongDetailType {
   id: number;
@@ -54,12 +60,13 @@ export class SongService {
       .subscribe((data) => {
         if (data.code === 200 && data.result) {
           const { name, picUrl, artists } = data.result;
-          this.songMsgSubject.next({
+          const song = {
             id,
             name,
             imgUrl: picUrl,
             artists,
-          });
+          };
+          this.songMsgSubject.next(song);
         }
       });
   }
@@ -70,20 +77,25 @@ export class SongService {
       .subscribe((data) => {
         if (data.code === 200 && data.result && data.result.length) {
           const { id, url } = data.result[data.result.length - 1];
-          this.songUrlSubject.next({
+          const song = {
             id,
             url,
-          });
+          };
+          this.songUrlSubject.next(song);
         }
       });
   }
 
-  setSong(song: SongDetailType) {
-    if (!song.imgUrl) {
-      this.getSongMsg(song.id);
-    } else {
+  setSong(song: PlayListItemType) {
+    if (isSongDetailType(song)) {
       this.songMsgSubject.next(song);
+    } else {
+      this.getSongMsg(song.id);
     }
-    this.getSongUrl(song.id);
+    if (isSongUrlType(song)) {
+      this.songUrlSubject.next(song);
+    } else {
+      this.getSongUrl(song.id);
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { PlaylistService, PlayModeType } from './../../utils/services/playlist.service';
 import { BackgroundService, defaultBG } from './../../utils/services/background.service';
 import { SongService, SongDetailType } from './../../utils/services/song.service';
 import { AnalysisData } from './../../utils/services/analyser.service';
@@ -31,12 +32,14 @@ export class FooterComponent implements OnInit {
     volume: 50,
     progress: 0,
   };
+  playMode: PlayModeType = 1;
 
   constructor(
     private el: ElementRef<HTMLElement>,
     private analyser: AnalyserService,
     private songService: SongService,
     private backgroundService: BackgroundService,
+    private palylistService: PlaylistService,
   ) {
     this.audioContext = new AudioContent(512);
     this.songService.songMsgObserver.subscribe((data) => {
@@ -49,11 +52,16 @@ export class FooterComponent implements OnInit {
           ...data,
         };
       }
+      this.palylistService.mergeMsg(data);
     });
     this.songService.songUrlObserver.subscribe((data) => {
       if (data.url) {
         this.loadMusic(data.url);
+        this.palylistService.mergeMsg(data);
       }
+    });
+    this.palylistService.playModeObserver.subscribe((data) => {
+      this.playMode = data;
     });
   }
 
@@ -173,5 +181,17 @@ export class FooterComponent implements OnInit {
         ((Number((event.target as HTMLInputElement).value) * this.audio.duration) / 100).toFixed(3),
       );
     }
+  }
+
+  changePlayMode() {
+    this.palylistService.changePlayMode();
+  }
+
+  handlePre() {
+    this.palylistService.pre();
+  }
+
+  handleNext() {
+    this.palylistService.next();
   }
 }
