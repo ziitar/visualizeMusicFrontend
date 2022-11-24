@@ -1,4 +1,10 @@
-<div>
-  <input type="text" appInput />
+<div class="search">
+  <input
+    type="text"
+    appInput
+    placeholder="搜索歌曲"
+    [(ngModel)]="searchContent"
+    (keydown)="handleKeyDown($event)"
+  />
 </div>
-<app-table></app-table>
+<app-table [data]="result"></app-table>

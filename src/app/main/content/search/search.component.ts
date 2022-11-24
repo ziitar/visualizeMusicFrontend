@@ -1,4 +1,7 @@
-import { SongService } from './../../../utils/services/song.service';
+import { PlaylistService } from './../../../utils/services/playlist.service';
+import { ColumnsType } from './../../../components/table/table.component';
+import { isTrulyValue } from 'src/utils/utils';
+import { SongService, SearchSongType } from './../../../utils/services/song.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,15 +10,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search.component.less'],
 })
 export class SearchComponent implements OnInit {
-  constructor(private songServicec: SongService) {}
+  searchContent = '';
+
+  result: SearchSongType[] = [];
+  columns: ColumnsType<SearchSongType>[] = [];
+  constructor(private songService: SongService, private playlistService: PlaylistService) {}
 
   ngOnInit(): void {}
 
-  handleSetSong() {
-    this.songServicec.setSong({
-      id: 1892532629,
-      name: '光亮',
-      artists: [],
-    });
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && isTrulyValue(this.searchContent)) {
+      this.songService.getSearchSong(this.searchContent).subscribe((data) => {
+        if (data.code) {
+          this.result = data.result?.songs || [];
+        }
+      });
+    }
   }
 }

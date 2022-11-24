@@ -1,0 +1,17 @@
+@import '../../../styles/themes/default.less';
+.search {
+  width: 100%;
+  text-align: center;
+  padding: @padding-lg;
+  position: relative;
+  input {
+    width: 300px;
+    &::-webkit-input-placeholder {
+      color: @color-text-4;
+    }
+  }
+  .searchIcon {
+    position: absolute;
+    right: @padding-sm;
+  }
+}

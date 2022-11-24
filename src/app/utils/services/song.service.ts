@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { isSongDetailType, isSongUrlType, PlayListItemType } from './playlist.service';
+import { distinctUntilChanged } from 'rxjs';
 
 export interface SongDetailType {
   id: number;
@@ -38,6 +39,26 @@ export type SongResultType = {
   md5: string;
 }[];
 
+export interface SearchSongType {
+  id: number;
+  name: string;
+  artists: {
+    id: number;
+    name: string;
+    img1v1Url: string;
+  }[];
+  album: {
+    id: number;
+    name: string;
+  };
+}
+
+export type SearchSongResultType = {
+  songs: SearchSongType[];
+  hasMore: boolean;
+  songCount: number;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -48,6 +69,12 @@ export class SongService {
   songUrlObserver = this.songUrlSubject.asObservable();
 
   constructor(private service: HttpClient) {}
+
+  getSearchSong(key: string) {
+    return this.service
+      .get<ResponseJSONType<SearchSongResultType>>(`/cloudApi/search/${key}`)
+      .pipe(distinctUntilChanged());
+  }
 
   private getSongMsg(id: number) {
     this.service

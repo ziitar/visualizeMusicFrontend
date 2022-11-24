@@ -1,7 +1,7 @@
 import { NotificationService } from 'src/app/utils/services/notification.service';
 import { Sheet, SheetService } from './sheet.service';
 import { UserService } from './../../../user/user.service';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { isTrulyValue } from 'src/utils/utils';
 
 @Component({
