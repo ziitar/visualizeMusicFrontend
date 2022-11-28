@@ -21,6 +21,7 @@ export class TableComponent<T extends Record<string, any>> implements OnInit {
   @Input() columnTemp:
     | Record<string, TemplateRef<{ data: T; key: ColumnsType<T>['key']; index: number }>>
     | undefined;
+  @Input() small = false;
   constructor() {}
 
   ngOnInit(): void {}

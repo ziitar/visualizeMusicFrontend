@@ -7,4 +7,13 @@
     (keydown)="handleKeyDown($event)"
   />
 </div>
-<app-table [data]="result"></app-table>
+<div class="searchTable">
+  <app-table [data]="result" [columns]="columns"></app-table>
+</div>
+<div class="tablePagination">
+  <app-pagination
+    [total]="total"
+    [pageNo]="pageNo"
+    (pageNoChange)="handleChange($event)"
+  ></app-pagination>
+</div>

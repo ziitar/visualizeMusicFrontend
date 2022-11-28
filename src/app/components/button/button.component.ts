@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-button',
@@ -15,7 +15,6 @@ export class ButtonComponent {
   }
   @Output() loadingStatus = new EventEmitter<boolean>();
 
-  observabel: Observable<MouseEvent> | undefined;
   localLoading = false;
 
   onClick(e: MouseEvent) {

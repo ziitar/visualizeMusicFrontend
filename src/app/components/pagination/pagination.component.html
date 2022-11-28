@@ -1,0 +1,34 @@
+<ul class="pagination">
+  <li>总条目：{{ total }}</li>
+  <li *ngIf="total">
+    <app-button [disabled]="pageNo === 1" (click)="handlePageNoChange(pageNo - 1)">
+      上一页
+    </app-button>
+  </li>
+  <ng-container *ngFor="let item of range; index as i; last as l; first as f; count as c">
+    <ng-container *ngIf="f">
+      <li [class.active]="pageNo === item">
+        <app-button (click)="handlePageNoChange(item)">{{ item }}</app-button>
+      </li>
+      <li *ngIf="!lContinuity">
+        <app-button>...</app-button>
+      </li>
+    </ng-container>
+    <li [class.active]="pageNo === item" *ngIf="!(l || f)">
+      <app-button (click)="handlePageNoChange(item)">{{ item }}</app-button>
+    </li>
+    <ng-container *ngIf="l">
+      <li *ngIf="!rContinuity">
+        <app-button>...</app-button>
+      </li>
+      <li [class.active]="pageNo === item">
+        <app-button (click)="handlePageNoChange(item)">{{ item }}</app-button>
+      </li>
+    </ng-container>
+  </ng-container>
+  <li *ngIf="total">
+    <app-button [disabled]="pageNo === count.length" (click)="handlePageNoChange(pageNo + 1)">
+      下一页
+    </app-button>
+  </li>
+</ul>

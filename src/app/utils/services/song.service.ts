@@ -70,9 +70,14 @@ export class SongService {
 
   constructor(private service: HttpClient) {}
 
-  getSearchSong(key: string) {
+  getSearchSong(key: string, pageNo: number, pageSize: number) {
     return this.service
-      .get<ResponseJSONType<SearchSongResultType>>(`/cloudApi/search/${key}`)
+      .get<ResponseJSONType<SearchSongResultType>>(`/cloudApi/search/${key}`, {
+        params: {
+          limit: pageSize,
+          offset: (pageNo - 1) * pageSize,
+        },
+      })
       .pipe(distinctUntilChanged());
   }
 

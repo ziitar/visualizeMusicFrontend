@@ -1,0 +1,13 @@
+@import '../../styles/themes/default.less';
+
+.pagination {
+  display: flex;
+  align-items: center;
+  li {
+    margin: 0 @margin-xss;
+    &.active {
+      background-color: fade(@color-text-primary, 40%);
+      border-radius: @border-radius-base;
+    }
+  }
+}

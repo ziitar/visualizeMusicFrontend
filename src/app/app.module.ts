@@ -31,6 +31,7 @@ import { ArrayItemJoinPipe } from './utils/pipe/array-item-join.pipe';
 import { PlaylistComponent } from './main/content/playlist/playlist.component';
 import { TableComponent } from './components/table/table.component';
 import { RenderPipe } from './utils/pipe/render.pipe';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { RenderPipe } from './utils/pipe/render.pipe';
     PlaylistComponent,
     TableComponent,
     RenderPipe,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,
