@@ -5,14 +5,14 @@ import {
   PlayListItemType,
   isSongDetailType,
 } from './../../../utils/services/playlist.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.less'],
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements OnInit, OnDestroy {
   playList: PlayListItemType[] = [];
   playingId: number | undefined;
   columns: ColumnsType<PlayListItemType>[] = [
@@ -41,18 +41,29 @@ export class PlaylistComponent implements OnInit {
       },
     },
   ];
+
+  playlistListSubscription;
+  playlistPlayingIdSubscription;
+
   constructor(private playlistService: PlaylistService, private songService: SongService) {
-    this.playlistService.listObserver.subscribe((data) => {
+    this.playlistListSubscription = this.playlistService.listObserver.subscribe((data) => {
       this.playList = data;
     });
-    this.playlistService.playingIdObserver.subscribe((data) => {
-      this.playingId = data;
-    });
+    this.playlistPlayingIdSubscription = this.playlistService.playingIdObserver.subscribe(
+      (data) => {
+        this.playingId = data;
+      },
+    );
   }
 
   ngOnInit(): void {}
 
   handlePlay(data: PlayListItemType) {
     this.songService.setSong(data);
+  }
+
+  ngOnDestroy(): void {
+    this.playlistListSubscription.unsubscribe();
+    this.playlistPlayingIdSubscription.unsubscribe();
   }
 }

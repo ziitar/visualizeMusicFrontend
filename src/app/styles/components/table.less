@@ -9,11 +9,18 @@
   color: @text-color;
   border-collapse: collapse;
   border-spacing: 0;
-  border-bottom: 1px solid @border-color-split;
+  table-layout: fixed;
 
+  &.app-header-table {
+    border-bottom: unset;
+  }
   th,
   td {
     padding: @padding-md;
+  }
+  tr:first-child > td {
+    padding: unset;
+    line-height: 0;
   }
 
   &.app-table-small {
@@ -21,13 +28,22 @@
     td {
       padding: @padding-xss;
     }
+    tr:first-child > td {
+      padding: unset;
+      line-height: 0;
+    }
   }
-  tr {
-    border-bottom: 1px solid @border-color-split;
+
+  .thead {
+    background-color: @table-header-bg;
   }
   tbody {
-    // min-height: 200px;
-    & > tr:last-child {
+    tr {
+      border-bottom: 1px solid @border-color-split;
+    }
+
+    & > tr:last-child,
+    & > tr:first-child {
       border: none;
     }
   }

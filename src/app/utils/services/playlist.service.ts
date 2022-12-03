@@ -40,7 +40,7 @@ export class PlaylistService {
     this.listSubject.next(this.list);
   }
 
-  addList(song: PlayListItemType) {
+  addSong(song: PlayListItemType) {
     this.list.unshift(song);
     this.listSubject.next(this.list);
   }

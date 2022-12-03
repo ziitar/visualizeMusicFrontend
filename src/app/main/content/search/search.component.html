@@ -8,7 +8,18 @@
   />
 </div>
 <div class="searchTable">
-  <app-table [data]="result" [columns]="columns"></app-table>
+  <app-table
+    [data]="result"
+    [scroll]="{ y: scrollY }"
+    [columns]="columns"
+    [columnTemp]="{ operation }"
+  >
+    <ng-template #operation let-data="data" let-index="index" let-key="key">
+      <div>
+        <span class="playFill" (click)="handlePlay(data)"></span>
+      </div>
+    </ng-template>
+  </app-table>
 </div>
 <div class="tablePagination">
   <app-pagination

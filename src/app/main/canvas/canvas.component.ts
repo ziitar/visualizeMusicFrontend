@@ -1,3 +1,4 @@
+import { WindowResizeService } from './../../utils/services/window-resize.service';
 import { AnalyserService } from './../../utils/services/analyser.service';
 import {
   Component,
@@ -19,6 +20,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
   ctxInstance: CanvasContent | undefined;
   canvas: HTMLCanvasElement | null = null;
   subscription;
+  windowResizeSubscription;
 
   @Input() set show(value: boolean) {
     if (value && this.ctxInstance && this.canvas) {
@@ -27,10 +29,20 @@ export class CanvasComponent implements OnInit, OnDestroy {
   }
   @Output() close = new EventEmitter<boolean>();
 
-  constructor(private el: ElementRef<Element>, private analyser: AnalyserService) {
+  constructor(
+    private el: ElementRef<Element>,
+    private analyser: AnalyserService,
+    private windowResize: WindowResizeService,
+  ) {
     this.subscription = this.analyser.analyserObservable.subscribe((data) => {
       if (this.ctxInstance) {
         this.ctxInstance.draw(data);
+      }
+    });
+    this.windowResizeSubscription = this.windowResize.resizeObservable.subscribe((data) => {
+      const [innerWidth, innerHeight] = data;
+      if (this.canvas && this.ctxInstance) {
+        this.ctxInstance.reset(innerWidth, innerHeight - 85 - 48);
       }
     });
   }
@@ -45,6 +57,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.windowResizeSubscription.unsubscribe();
     this.canvas = null;
   }
 

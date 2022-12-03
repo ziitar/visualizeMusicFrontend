@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 interface GridType {
@@ -10,7 +11,7 @@ interface GridType {
   templateUrl: './form-item.component.html',
   styleUrls: ['./form-item.component.less'],
 })
-export class FormItemComponent implements OnInit, OnChanges {
+export class FormItemComponent implements OnInit, OnChanges, OnDestroy {
   @Input('key') key!: string;
   @Input('control') formControl: FormControl | FormGroup = new FormControl();
   @Input() label = '';
@@ -22,6 +23,8 @@ export class FormItemComponent implements OnInit, OnChanges {
   labelClass = {};
   controlClass = {};
   isRequired = false;
+
+  statusChangesSubscription: Subscription | undefined;
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['grid']) {
@@ -40,7 +43,7 @@ export class FormItemComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.formControl.statusChanges.subscribe((status) => {
+    this.statusChangesSubscription = this.formControl.statusChanges.subscribe((status) => {
       if (status === 'INVALID') {
         this.errors =
           this.formControl.errors &&
@@ -52,5 +55,9 @@ export class FormItemComponent implements OnInit, OnChanges {
         this.formControl.invalid && (this.formControl.dirty || this.formControl.touched);
     });
     this.isRequired = this.formControl.hasValidator(Validators.required);
+  }
+
+  ngOnDestroy(): void {
+    this.statusChangesSubscription?.unsubscribe();
   }
 }

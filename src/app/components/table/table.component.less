@@ -1,0 +1,28 @@
+@import '../../styles/themes/default.less';
+
+.tableFixedHeader {
+  overflow: hidden scroll;
+  background-color: @table-header-bg;
+}
+.tableScrollY {
+  overflow-y: auto;
+}
+.tableScrollX {
+  overflow-x: auto;
+}
+.tableTbodyEmpty {
+  position: relative;
+  height: 70px;
+}
+.tableEmpty {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: @padding-lg;
+}
+.tableContent {
+  border-bottom: 1px solid @border-color-split;
+}

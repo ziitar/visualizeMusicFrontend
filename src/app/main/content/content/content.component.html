@@ -1,6 +1,12 @@
 <div appRow [flex]="true" class="content">
   <div appCol [flex]="'none'" [xxl]="4" [xl]="6" [lg]="8" [md]="10" [sm]="24" class="sider">
-    <div class="logo">可视化音乐网站</div>
+    <div class="logo">
+      可视化音乐网站
+      <ng-container *ngIf="isLogin">
+        <app-button [handleClick]="loginOut">退出登录</app-button>
+      </ng-container>
+    </div>
+
     <app-sheet> </app-sheet>
   </div>
   <div appCol [flex]="'auto'">

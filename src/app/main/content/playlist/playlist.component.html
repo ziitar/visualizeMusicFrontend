@@ -1,4 +1,10 @@
-<app-table [columns]="columns" [data]="playList" [columnTemp]="{ play: play }" [small]="true">
+<app-table
+  [columns]="columns"
+  [data]="playList"
+  [columnTemp]="{ play: play }"
+  [small]="true"
+  [scroll]="{ y: 270 }"
+>
   <ng-template #play let-data="data" let-key="key" let-index="index">
     <span class="playFill cursor" (click)="handlePlay(data)"></span>
   </ng-template>

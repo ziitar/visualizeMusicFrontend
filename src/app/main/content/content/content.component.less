@@ -3,12 +3,12 @@
 .content {
   height: 100vh;
   overflow: hidden;
-  overflow-y: auto;
   padding-bottom: @footer-height;
+  flex-wrap: nowrap;
 }
 .sider {
   height: calc(100vh - @footer-height);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: @color-bg-main-content;
   padding: @padding-lg;
 }
 .logo {

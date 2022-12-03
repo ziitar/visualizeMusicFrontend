@@ -41,7 +41,7 @@ export class FooterComponent implements OnInit {
     private backgroundService: BackgroundService,
     private palylistService: PlaylistService,
   ) {
-    this.audioContext = new AudioContent(512);
+    this.audioContext = new AudioContent(256);
     this.songService.songMsgObserver.subscribe((data) => {
       if (!this.songMsg || this.songMsg.id === data.id) {
         if (data.imgUrl) {

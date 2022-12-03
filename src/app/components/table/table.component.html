@@ -1,36 +1,73 @@
-<table class="app-table" [class]="{ 'app-table-border': borderd, 'app-table-small': small }">
-  <colgroup>
-    <col *ngFor="let column of columns" [attr.width]="column.width" />
-  </colgroup>
-  <thead>
-    <tr>
-      <th *ngFor="let column of columns" [style.align]="column.align">
-        {{ column.title }}
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of data; let rowIndex = index">
-      <td *ngFor="let column of columns" [style.align]="column.align">
-        <ng-container *ngIf="column.temp && columnTemp">
-          <ng-template
-            [ngTemplateOutlet]="columnTemp[column.key]"
-            [ngTemplateOutletContext]="{
-              data: row,
-              key: column.key,
-              index: rowIndex
-            }"
-          ></ng-template>
-        </ng-container>
-        <ng-container *ngIf="!column.temp">
-          <ng-container *ngIf="!column.render">
-            {{ row[column.key] }}
-          </ng-container>
-          <ng-container *ngIf="column.render">
-            {{ column.render | render: row:column.key:rowIndex }}
-          </ng-container>
-        </ng-container>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div [class.tableScrollX]="_scroll_x">
+  <div *ngIf="_scroll_y" class="tableFixedHeader" #tableHeader>
+    <table
+      class="app-table app-header-table"
+      [class]="{ 'app-table-border': borderd, 'app-table-small': small }"
+    >
+      <colgroup>
+        <col
+          *ngFor="let column of columns; last as last"
+          [attr.width]="!last ? column.width : ''"
+        />
+      </colgroup>
+      <thead>
+        <tr>
+          <th *ngFor="let column of columns" [style.align]="column.align">
+            {{ column.title }}
+          </th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div
+    class="tableContent"
+    [class]="{ tableScrollY: _scroll_y }"
+    [style.maxHeight]="_scroll_y ? _scroll_y_num + 'px' : 'unset'"
+  >
+    <table class="app-table" [class]="{ 'app-table-border': borderd, 'app-table-small': small }">
+      <colgroup>
+        <col
+          *ngFor="let column of columns; last as last"
+          [attr.width]="last && _scroll_y ? '' : column.width"
+        />
+      </colgroup>
+      <thead *ngIf="!_scroll_y" class="thead">
+        <tr>
+          <th *ngFor="let column of columns" [style.align]="column.align">
+            {{ column.title }}
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngIf="data && data.length">
+        <tr>
+          <td *ngFor="let column of columns"></td>
+        </tr>
+        <tr *ngFor="let row of data; let rowIndex = index">
+          <td *ngFor="let column of columns" [style.align]="column.align">
+            <ng-container *ngIf="column.temp && columnTemp">
+              <ng-template
+                [ngTemplateOutlet]="columnTemp[column.key]"
+                [ngTemplateOutletContext]="{
+                  data: row,
+                  key: column.key,
+                  index: rowIndex
+                }"
+              ></ng-template>
+            </ng-container>
+            <ng-container *ngIf="!column.temp">
+              <ng-container *ngIf="!column.render">
+                {{ row[column.key] }}
+              </ng-container>
+              <ng-container *ngIf="column.render">
+                {{ column.render | render: row:column.key:rowIndex }}
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+      <tbody class="tableTbodyEmpty" *ngIf="!data || data.length == 0">
+        <div class="tableEmpty">暂无数据</div>
+      </tbody>
+    </table>
+  </div>
+</div>

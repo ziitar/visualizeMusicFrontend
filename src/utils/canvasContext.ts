@@ -1,4 +1,5 @@
 import { AnalysisData } from './../app/utils/services/analyser.service';
+import visualizeTemplate from './visualizeTemplate';
 export default class CanvasContent {
   private canvas;
   private ctx;
@@ -32,24 +33,12 @@ export default class CanvasContent {
     }
   }
 
-  drawFrequenecy(ctx: CanvasRenderingContext2D, arr: Uint8Array) {
-    ctx.clearRect(0, 0, this.width, this.height);
-    const padding = 20;
-    const splitArea = Math.floor((this.width - padding * 2) / arr.byteLength);
-    ctx.lineWidth = splitArea - 2;
-    ctx.lineCap = 'round';
-    const bottom = this.height - 300;
-    ctx.strokeStyle = '#000';
-    ctx.beginPath();
-    let num = 0;
-    ctx.moveTo(padding, bottom);
-    ctx.lineTo(this.width - padding, bottom);
-    for (const i of arr) {
-      ctx.moveTo(padding + num * splitArea, bottom);
-      ctx.lineTo(padding + num * splitArea, bottom - i);
-      num++;
-    }
-    ctx.stroke();
+  drawFrequenecy(
+    ctx: CanvasRenderingContext2D,
+    arr: Uint8Array,
+    template: keyof typeof visualizeTemplate = 'default',
+  ) {
+    visualizeTemplate[template].run(ctx, arr, this.width, this.height);
   }
 
   drawFloatFrequency(ctx: CanvasRenderingContext2D, arr: Float32Array) {

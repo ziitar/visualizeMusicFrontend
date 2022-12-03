@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserInfo } from './user';
 import { ResponseJSONType } from '../utils/services/httpResponseJSON';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { ReplaySubject, map } from 'rxjs';
 
 export interface UserServiceMsg {
   isLogin: boolean;
@@ -15,7 +15,7 @@ export interface UserServiceMsg {
   providedIn: 'root',
 })
 export class UserService {
-  private subject = new Subject<UserServiceMsg>();
+  private subject = new ReplaySubject<UserServiceMsg>();
 
   isLoginObservable = this.subject.asObservable();
   isLogin = false;
@@ -89,5 +89,26 @@ export class UserService {
           });
         }
       });
+  }
+  loginOut() {
+    const userName = this.user?.username || '';
+    return this.http.put<ResponseJSONType<undefined>>('/user/loginOut', null).subscribe((data) => {
+      if (data.status === 1) {
+        this.subject.next({
+          user: undefined,
+          isLogin: false,
+        });
+        this.notification.success({
+          title: '退出成功',
+          message: `拜拜${userName}`,
+          duration: 1000,
+        });
+      } else {
+        this.notification.warning({
+          message: data.msg || '',
+          title: '退出失败',
+        });
+      }
+    });
   }
 }
