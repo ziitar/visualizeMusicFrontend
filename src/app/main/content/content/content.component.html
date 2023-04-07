@@ -1,5 +1,15 @@
 <div appRow [flex]="true" class="content">
-  <div appCol [flex]="'none'" [xxl]="4" [xl]="6" [lg]="8" [md]="10" [sm]="24" class="sider">
+  <div
+    appCol
+    [flex]="'none'"
+    [xxl]="4"
+    [xl]="6"
+    [lg]="8"
+    [md]="10"
+    [sm]="24"
+    [xs]="24"
+    class="sider"
+  >
     <div class="logo">
       可视化音乐网站
       <ng-container *ngIf="isLogin">
@@ -9,7 +19,7 @@
 
     <app-sheet> </app-sheet>
   </div>
-  <div appCol [flex]="'auto'">
+  <div appCol [flex]="'auto'" [xxl]="20" [xl]="18" [lg]="16" [md]="14" [sm]="24" [xs]="24">
     <router-outlet></router-outlet>
   </div>
 </div>

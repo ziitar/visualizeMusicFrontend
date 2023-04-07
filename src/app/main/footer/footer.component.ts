@@ -56,6 +56,7 @@ export class FooterComponent implements OnInit {
     });
     this.songService.songUrlObserver.subscribe((data) => {
       if (data.url) {
+        this.audioContext.changeCtxState();
         this.loadMusic(data.url);
         this.palylistService.mergeMsg(data);
       }

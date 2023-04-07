@@ -43,6 +43,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     },
   ];
   scrollY = 0;
+  _snapshot: string | undefined;
   _windowResizeSubscription;
   constructor(
     private songService: SongService,
@@ -59,14 +60,17 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.scrollY = window.innerHeight - 85 - 80 - 80 - 24 - 54;
   }
 
-  getSongResult() {
+  getSongResult(snapshot?: string) {
     this.songService
-      .getSearchSong(this.searchContent, this.pageNo, this.pageSize)
+      .getSearchSong(snapshot || this.searchContent, this.pageNo, this.pageSize)
       .subscribe((data) => {
         if (data.code) {
           this.result = data.result?.songs || [];
           this.total = data.result?.songCount || 0;
-          this.pageNo = 1;
+          if (!snapshot) {
+            this._snapshot = this.searchContent;
+            this.pageNo = 1;
+          }
         }
       });
   }
@@ -78,9 +82,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
   handleChange(pageNo: number) {
     this.pageNo = pageNo;
-    if (isTrulyValue(this.searchContent)) {
-      this.getSongResult();
-    }
+    this.getSongResult(this._snapshot);
   }
   handlePlay(data: SearchSongType) {
     this.playlistService.addSong(data);

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+const showPaginationNum = 5;
+
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
@@ -76,12 +78,12 @@ export class PaginationComponent implements OnInit {
         return true;
       } else if (item === count.length) {
         return true;
-      } else if (i < 5 && item <= 6) {
+      } else if (i < 4 && item <= 4) {
         return true;
-      } else if (i >= count.length - 3 && item >= count.length - 5) {
+      } else if (i > count.length - 3 && item > count.length - 4) {
         return true;
       } else {
-        return item >= i - 2 && item <= i + 2;
+        return item > i - 2 && item <= i + 1;
       }
     });
     this.lContinuity = true;

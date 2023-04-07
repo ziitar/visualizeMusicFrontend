@@ -9,6 +9,12 @@ export default class AudioContent {
     this.analyser.fftSize = fft * 2;
   }
 
+  async changeCtxState() {
+    if (this.ac.state === 'suspended') {
+      await this.ac.resume();
+    }
+  }
+
   setFFT(fft: number) {
     this.analyser.fftSize = fft * 2;
   }
