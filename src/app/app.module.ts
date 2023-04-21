@@ -32,6 +32,7 @@ import { PlaylistComponent } from './main/content/playlist/playlist.component';
 import { TableComponent } from './components/table/table.component';
 import { RenderPipe } from './utils/pipe/render.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { MusicComponent } from './music/music.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     TableComponent,
     RenderPipe,
     PaginationComponent,
+    MusicComponent,
   ],
   imports: [
     BrowserModule,

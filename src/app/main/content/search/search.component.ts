@@ -2,8 +2,8 @@ import { WindowResizeService } from './../../../utils/services/window-resize.ser
 import { PlaylistService } from './../../../utils/services/playlist.service';
 import { ColumnsType } from './../../../components/table/table.component';
 import { isTrulyValue } from 'src/utils/utils';
-import { SongService, SearchSongType } from './../../../utils/services/song.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SearchSongType, SongService } from './../../../utils/services/song.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-search',

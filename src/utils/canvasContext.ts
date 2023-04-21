@@ -1,5 +1,5 @@
-import { AnalysisData } from './../app/utils/services/analyser.service';
-import visualizeTemplate from './visualizeTemplate';
+import { AnalysisData } from "./../app/utils/services/analyser.service";
+import visualizeTemplate from "./visualizeTemplate";
 export default class CanvasContent {
   private canvas;
   private ctx;
@@ -8,7 +8,7 @@ export default class CanvasContent {
 
   constructor(canvas: HTMLCanvasElement, width: number, height: number) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
+    this.ctx = canvas.getContext("2d");
     canvas.width = width;
     canvas.height = height;
     this.width = width;
@@ -36,7 +36,7 @@ export default class CanvasContent {
   drawFrequenecy(
     ctx: CanvasRenderingContext2D,
     arr: Uint8Array,
-    template: keyof typeof visualizeTemplate = 'default',
+    template: keyof typeof visualizeTemplate = "default",
   ) {
     visualizeTemplate[template].run(ctx, arr, this.width, this.height);
   }

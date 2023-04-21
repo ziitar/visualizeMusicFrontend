@@ -5,6 +5,7 @@ import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
 import { LayoutComponent as UserLayout } from './user/layout/layout.component';
 import { LayoutComponent as MainLayout } from './main/layout/layout.component';
+import { MusicComponent } from './music/music.component';
 const routes: Routes = [
   {
     path: 'user',
@@ -26,6 +27,10 @@ const routes: Routes = [
       },
       { path: '', pathMatch: 'full', redirectTo: 'login' },
     ],
+  },
+  {
+    path: 'music',
+    component: MusicComponent,
   },
   {
     path: '',

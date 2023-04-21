@@ -2,7 +2,7 @@ import { PlaylistService, PlayModeType } from './../../utils/services/playlist.s
 import { BackgroundService, defaultBG } from './../../utils/services/background.service';
 import { SongService, SongDetailType } from './../../utils/services/song.service';
 import { AnalysisData } from './../../utils/services/analyser.service';
-import { Component, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, Output, EventEmitter, NgZone } from '@angular/core';
 import { AnalyserService } from 'src/app/utils/services/analyser.service';
 import AudioContent from 'src/utils/audioContext';
 type AnalysisFlag = Partial<Record<keyof AnalysisData, boolean>>;
@@ -40,6 +40,7 @@ export class FooterComponent implements OnInit {
     private songService: SongService,
     private backgroundService: BackgroundService,
     private palylistService: PlaylistService,
+    private ngZone: NgZone,
   ) {
     this.audioContext = new AudioContent(256);
     this.songService.songMsgObserver.subscribe((data) => {
@@ -162,10 +163,10 @@ export class FooterComponent implements OnInit {
         floatTimeDomain: data3,
       });
       if (this.shouldAnalyser) {
-        requestAnimationFrame(step);
+        this.ngZone.runOutsideAngular(() => requestAnimationFrame(step));
       }
     };
-    requestAnimationFrame(step);
+    this.ngZone.runOutsideAngular(() => requestAnimationFrame(step));
   }
 
   handleSwithCanvas() {
