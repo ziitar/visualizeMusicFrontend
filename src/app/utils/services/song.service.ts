@@ -81,21 +81,23 @@ export class SongService {
       .pipe(distinctUntilChanged());
   }
 
-  private getSongMsg(id: number) {
-    this.service
-      .get<ResponseJSONType<SongDetailResultType>>(`/cloudApi/song/detail/${id}`)
-      .subscribe((data) => {
-        if (data.code === 200 && data.result) {
-          const { name, picUrl, artists } = data.result;
-          const song = {
-            id,
-            name,
-            imgUrl: picUrl,
-            artists,
-          };
-          this.songMsgSubject.next(song);
-        }
-      });
+  getSongMsg(id: number) {
+    return this.service.get<ResponseJSONType<SongDetailResultType>>(`/cloudApi/song/detail/${id}`);
+  }
+
+  private _getSongMsg(id: number) {
+    this.getSongMsg(id).subscribe((data) => {
+      if (data.code === 200 && data.result) {
+        const { name, picUrl, artists } = data.result;
+        const song = {
+          id,
+          name,
+          imgUrl: picUrl,
+          artists,
+        };
+        this.songMsgSubject.next(song);
+      }
+    });
   }
 
   private getSongUrl(id: number) {
@@ -117,7 +119,7 @@ export class SongService {
     if (isSongDetailType(song)) {
       this.songMsgSubject.next(song);
     } else {
-      this.getSongMsg(song.id);
+      this._getSongMsg(song.id);
     }
     if (isSongUrlType(song)) {
       this.songUrlSubject.next(song);

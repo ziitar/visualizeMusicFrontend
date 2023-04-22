@@ -17,7 +17,7 @@ export class RowDirective implements OnInit {
 
   ngOnInit() {
     if (this.gutter) {
-      this.el.nativeElement.className += `app-row-gutter-${this.gutter}`;
+      this.el.nativeElement.className += ` app-row-gutter-${this.gutter}`;
     }
   }
 }

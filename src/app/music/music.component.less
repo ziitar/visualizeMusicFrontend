@@ -1,8 +1,72 @@
 @import '../styles/themes/default.less';
-.library {
+
+@height-offset: @padding-lg*2 + @height-input-base + 2 + @margin-md;
+
+.default-box{
+  border: 1px solid @border-color-base;
+  border-radius: @border-radius-base;
+  padding: 0 @padding-md;
+}
+
+.music-box {
   width: 100%;
-  max-height: 200px;
+  height: 100vh;
+  padding: @padding-lg;
   overflow: hidden;
-  overflow-y: auto;
-  margin-bottom: @margin-lg;
+
+  .root-field{
+    border: 1px solid @border-color-base;
+    border-radius: @border-radius-base;
+    padding: 0 @padding-md;
+    line-height: @height-input-base - 2;
+    margin-bottom: @margin-md;
+  }
+  .file-list{
+    width: 100%;
+    height: calc(100vh - @height-offset );
+    overflow: hidden;
+    overflow-y: auto;
+    .default-box;
+
+    li{
+      width: 100%;
+      margin: @margin-xs 0;
+      line-height: @font-line-height-sm;
+      border-bottom: 1px solid @border-color-split;
+      cursor: pointer;
+    }
+    li:hover{
+      background-color: fade(@table-row-hover-bg, 40%);
+    }
+    li.active{
+      background-color: fade(@primary-color-active, 40%)
+    }
+  }
+  .file-card{
+    width: 100%;
+    height: calc(100vh - @height-offset );
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+    .default-box;
+  }
+  .img-wrap{
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    .img-box{
+      position: absolute;
+      display: inline-block;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: @border-radius-base;
+      overflow: hidden;
+      img{
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
 }
