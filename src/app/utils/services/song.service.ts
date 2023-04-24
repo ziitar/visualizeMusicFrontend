@@ -50,7 +50,9 @@ export interface SearchSongType {
   album: {
     id: number;
     name: string;
+    publishTime: number;
   };
+  duration: number;
 }
 
 export type SearchSongResultType = {

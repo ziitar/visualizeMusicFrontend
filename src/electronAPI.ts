@@ -689,4 +689,5 @@ export interface ElectronAPI {
     cb: (event: IpcRendererEvent, root: string, fileList: string[]) => void,
   ) => void;
   invokeReadID3: (root: string, file: string) => PromiseLike<Tags>;
+  invokeSetID3: (root: string, file: string, tags: Tags) => PromiseLike<boolean>;
 }

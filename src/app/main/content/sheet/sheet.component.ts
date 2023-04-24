@@ -18,10 +18,7 @@ export class SheetComponent implements OnInit, OnDestroy {
     this.subscription = this.user.isLoginObservable.subscribe((data) => {
       this.isLogin = data.isLogin;
       if (this.isLogin) {
-        this.sheetService.getSheet().add(() => {
-          this.sheetsGetting = false;
-          this.sheets = this.sheetService.sheets;
-        });
+        this.getSheets();
       }
     });
   }
@@ -39,8 +36,24 @@ export class SheetComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+  getSheets() {
+    this.sheetsGetting = true;
+    this.sheetService.getSheet().add(() => {
+      this.sheetsGetting = false;
+      this.sheets = this.sheetService.sheets;
+    });
+  }
   handleDelete = (e: MouseEvent, param?: Record<string, any>) => {
-    if (param) return this.sheetService.deleteSheet(param['id'] as string);
+    if (param)
+      return this.sheetService.deleteSheet(param['id'] as string).subscribe((data) => {
+        if (data.code === 200) {
+          this.notification.success({
+            title: '操作成功',
+            message: '歌单已删除',
+          });
+          this.getSheets();
+        }
+      });
     return;
   };
   handleCreate = () => {
@@ -48,11 +61,7 @@ export class SheetComponent implements OnInit, OnDestroy {
       return this.sheetService.createSheet(this.sheetName).subscribe((data) => {
         if (data.result) {
           this.creating = false;
-          this.sheetsGetting = true;
-          this.sheetService.getSheet().add(() => {
-            this.sheetsGetting = false;
-            this.sheets = this.sheetService.sheets;
-          });
+          this.getSheets();
         }
       });
     } else {

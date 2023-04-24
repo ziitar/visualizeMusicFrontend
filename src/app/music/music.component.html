@@ -1,82 +1,96 @@
 <div class="music-box">
   <div appRow [gutter]="12" [flex]="true" [flexNowrap]="true">
-    <div appCol [md]="16" [xs]="24" class="root-field">root directory:{{root}}</div>
-    <div appCol [md]="8" [xs]="24" >
-      <input type="text" style="width: 100%" appInput [(ngModel)]="searchName" 
-      (keydown)="handleResearch($event)">
+    <div appCol [md]="16" [xs]="24" class="root-field">root directory:{{ root }}</div>
+    <div appCol [md]="8" [xs]="24">
+      <input
+        type="text"
+        style="width: 100%"
+        appInput
+        [(ngModel)]="searchName"
+        (keydown)="handleResearch($event)"
+      />
     </div>
   </div>
   <div appRow [gutter]="12" [flex]="true" [flexNowrap]="true">
     <div appCol [md]="6" [xs]="24">
       <ul class="file-list">
-        <li *ngFor="let li of library" [class.active]="li === activeFile" (click)="handleActive(li)">{{li}}</li>
+        <li
+          *ngFor="let li of library"
+          [class.active]="li === activeFile"
+          (click)="handleActive(li)"
+        >
+          {{ li }}
+        </li>
       </ul>
     </div>
     <div appCol [md]="6" [xs]="24">
-      <div class="file-card" >
+      <div class="file-card">
         <div class="layout-router">
-          <app-form-item [control]="oldOrNew">
-            <input type="radio" id="contactChoice1" name="contact" value="email" />
-            <label for="contactChoice1">电子邮件</label>
-  
-            <input type="radio" id="contactChoice2" name="contact" value="phone" />
-            <label for="contactChoice2">电话</label>
-          </app-form-item>
+          <input type="radio" id="contactChoice1" [(ngModel)]="oldOrNew" value="old" />
+          <label for="contactChoice1">原始Tags</label>
+
+          <input type="radio" id="contactChoice2" [(ngModel)]="oldOrNew" value="new" />
+          <label for="contactChoice2">新Tags</label>
         </div>
-        <div [@switchAnimation]="oldOrNew.value === 'old'?'left':'right'" [ngSwitch]="oldOrNew">
+        <div [ngSwitch]="oldOrNew">
           <ng-container *ngSwitchCase="'old'">
             <ng-container *ngIf="oldFileID3">
               <div class="img-wrap">
                 <div class="img-box">
-                  <img [src]="oldImgUrl" alt="">
+                  <img [src]="oldImgUrl" alt="" />
                 </div>
               </div>
               <ul>
-                <li>歌名：{{oldFileID3.title}}</li>
-                <li>歌手：{{oldFileID3.artist}}</li>
-                <li>专辑：{{oldFileID3.album}}</li>
-                <li>年份：{{oldFileID3.year}}</li>
-                <li>原始年份：{{oldFileID3.originalYear}}</li>
-                <li>轨道编号：{{oldFileID3.trackNumber}}</li>
-                <li>发行商：{{oldFileID3.publisher}}</li>
+                <li>歌名：{{ oldFileID3.title }}</li>
+                <li>歌手：{{ oldFileID3.artist }}</li>
+                <li>专辑：{{ oldFileID3.album }}</li>
+                <li>年份：{{ oldFileID3.year }}</li>
+                <li>原始年份：{{ oldFileID3.originalYear }}</li>
+                <li>轨道编号：{{ oldFileID3.trackNumber }}</li>
+                <li>发行商：{{ oldFileID3.publisher }}</li>
               </ul>
             </ng-container>
-            <ng-container *ngSwitchCase="'new'">
-              <ng-container *ngIf="fileID3">
-                <div class="img-wrap">
-                  <div class="img-box">
-                    <img [src]="oldImgUrl" alt="">
-                  </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'new'">
+            <ng-container *ngIf="fileID3">
+              <div class="img-wrap">
+                <div class="img-box">
+                  <img [src]="imgUrl" alt="" />
                 </div>
-                <ul>
-                  <li>歌名：{{fileID3.title}}</li>
-                  <li>歌手：{{fileID3.artist}}</li>
-                  <li>专辑：{{fileID3.album}}</li>
-                  <li>年份：{{fileID3.year}}</li>
-                  <li>原始年份：{{fileID3.originalYear}}</li>
-                  <li>轨道编号：{{fileID3.trackNumber}}</li>
-                  <li>发行商：{{fileID3.publisher}}</li>
-                </ul>
-              </ng-container>
+              </div>
+              <ul>
+                <li>歌名：{{ fileID3.title }}</li>
+                <li>歌手：{{ fileID3.artist }}</li>
+                <li>专辑：{{ fileID3.album }}</li>
+                <li>年份：{{ fileID3.year }}</li>
+                <li>时长：{{ fileID3.comment?.text }}</li>
+                <li>原始年份：{{ fileID3.originalYear }}</li>
+              </ul>
+              <app-button [handleClick]="setTags">设置为新tags</app-button>
             </ng-container>
           </ng-container>
         </div>
       </div>
     </div>
     <div appCol [md]="12" [xs]="24">
-      <app-table [borderd]="true"
-      [data]="songs"
-      [small]="true"
-      [columns]="columns"
-    [columnTemp]="{ operation }"
-  >
-    <ng-template #operation let-data="data" let-index="index" let-key="key">
-      <div>
-        <span class="playFill" (click)="getMsg(data)"></span>
-      </div>
-    </ng-template>
+      <app-table
+        [borderd]="true"
+        [data]="songs"
+        [small]="true"
+        [columns]="columns"
+        [columnTemp]="{ operation }"
+      >
+        <ng-template #operation let-data="data" let-index="index" let-key="key">
+          <div>
+            <ng-container [ngSwitch]="data.id === tableSelectId">
+              <span *ngSwitchCase="true" class="rightFill"></span>
+              <app-async-click *ngSwitchCase="false" [handleClick]="getMsg" [param]="data">
+                <span class="leftArrowFromLeftFill"></span>
+              </app-async-click>
+            </ng-container>
+          </div>
+        </ng-template>
       </app-table>
     </div>
   </div>
-
-</div>  
+</div>

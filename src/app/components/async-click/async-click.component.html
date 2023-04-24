@@ -1,5 +1,5 @@
 <ng-container *ngIf="!loading">
-    <div [class]="{asyncClickInline: inline}">
+    <div [class]="{asyncClickInline: inline}" (click)="onClick($event)">
         <ng-content></ng-content>
     </div>
 </ng-container>

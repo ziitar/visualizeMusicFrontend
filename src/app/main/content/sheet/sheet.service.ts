@@ -23,18 +23,7 @@ export class SheetService {
     });
   }
   deleteSheet(id: string) {
-    return this.http
-      .delete<ResponseJSONType<boolean>>(`/sheets/${id}`)
-      .pipe(delay(4000))
-      .subscribe((data) => {
-        if (data.code === 200) {
-          this.notification.success({
-            title: '操作成功',
-            message: '歌单已删除',
-          });
-        }
-        this.getSheet();
-      });
+    return this.http.delete<ResponseJSONType<boolean>>(`/sheets/${id}`);
   }
   createSheet(name: string) {
     return this.http

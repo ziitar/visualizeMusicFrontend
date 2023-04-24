@@ -7,7 +7,7 @@ import {
   HttpResponse,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
 import { ResponseJSONType } from './httpResponseJSON';
@@ -25,7 +25,7 @@ export class HttpInjectable implements HttpInterceptor {
     return next.handle(cloneReq).pipe(
       map((event) => this.handleMapResponseBody(event, req.responseType)),
       catchError((err: HttpErrorResponse, caugth) => {
-        console.log(err, caugth);
+        console.error(err, caugth);
         let title = '接口请求报错',
           property: 'error' | 'warning' = 'error',
           msg = '';
@@ -92,6 +92,12 @@ export class HttpInjectable implements HttpInterceptor {
             }
           }
         }
+      } else {
+        this.notification.error({
+          title: '网络错误',
+          message: `状态：${event.status}, 返回类型：${responseType}`,
+        });
+        return event.clone({ body: undefined });
       }
     }
     return event;
