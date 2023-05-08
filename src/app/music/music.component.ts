@@ -176,13 +176,11 @@ export class MusicComponent implements OnInit {
     }
   }
   handleSearch() {
-    this.songService
-      .getSearchSong(encodeURIComponent(this.searchName || ''), 1, 10)
-      .subscribe((data) => {
-        if (data.code) {
-          this.songs = data.result?.songs || [];
-          this.changeDetectorRef.detectChanges();
-        }
-      });
+    this.songService.getSearchSong(this.searchName || '', 1, 10).subscribe((data) => {
+      if (data.code) {
+        this.songs = data.result?.songs || [];
+        this.changeDetectorRef.detectChanges();
+      }
+    });
   }
 }
