@@ -50,6 +50,8 @@ export class MusicComponent implements OnInit {
   ];
   songs: SearchSongType[] = [];
   tableSelectId: undefined | number;
+  total = 0;
+  pageNo = 1;
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private songService: SongService,
@@ -169,18 +171,26 @@ export class MusicComponent implements OnInit {
     this.searchName = undefined;
     this.songs = [];
     this.tableSelectId = undefined;
+    this.pageNo = 1;
+    this.total = 0;
   }
   handleResearch(event: KeyboardEvent) {
     if (event.key === 'Enter' && isTrulyValue(this.searchName)) {
+      this.pageNo = 1;
       this.handleSearch();
     }
   }
   handleSearch() {
-    this.songService.getSearchSong(this.searchName || '', 1, 10).subscribe((data) => {
+    this.songService.getSearchSong(this.searchName || '', this.pageNo, 10).subscribe((data) => {
       if (data.code) {
         this.songs = data.result?.songs || [];
+        this.total = data.result?.songCount || 0;
         this.changeDetectorRef.detectChanges();
       }
     });
+  }
+  handlePageChange(pageNo: number) {
+    this.pageNo = pageNo;
+    this.handleSearch();
   }
 }

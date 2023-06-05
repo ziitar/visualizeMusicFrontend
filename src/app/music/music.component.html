@@ -91,6 +91,14 @@
           </div>
         </ng-template>
       </app-table>
+      <div class="table-pagination">
+        <app-pagination
+          [total]="total"
+          [pageNo]="pageNo"
+          [pageSize]="10"
+          (pageNoChange)="handlePageChange($event)"
+        ></app-pagination>
+      </div>
     </div>
   </div>
 </div>
