@@ -6,6 +6,8 @@ import { RegisterComponent } from './user/register/register.component';
 import { LayoutComponent as UserLayout } from './user/layout/layout.component';
 import { LayoutComponent as MainLayout } from './main/layout/layout.component';
 import { MusicComponent } from './music/music.component';
+import { EncodeComponent } from './encode/encode.component';
+import { LibraryComponent } from './library/library.component';
 const routes: Routes = [
   {
     path: 'user',
@@ -31,6 +33,14 @@ const routes: Routes = [
   {
     path: 'music',
     component: MusicComponent,
+  },
+  {
+    path: 'library',
+    component: LibraryComponent,
+  },
+  {
+    path: 'encode',
+    component: EncodeComponent,
   },
   {
     path: '',

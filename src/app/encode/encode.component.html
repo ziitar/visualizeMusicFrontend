@@ -1,0 +1,38 @@
+<div class="music-box">
+  <div appRow [gutter]="12" [flex]="true" [flexNowrap]="true">
+    <div appCol [md]="16" [xs]="24" class="root-field">root directory:{{ root }}</div>
+  </div>
+  <div appRow [gutter]="12" [flex]="true" [flexNowrap]="true">
+    <div appCol [md]="10" [xs]="24">
+      <ul class="file-list">
+        <li
+          *ngFor="let li of library"
+          [class.active]="li === activeFile"
+          (click)="handleActive(li)"
+        >
+          {{ li }}
+        </li>
+      </ul>
+    </div>
+    <div appCol [md]="7" [xs]="24">
+      <div class="file-card">
+        <div class="table-pagination">
+          <app-button (click)="handleTranslate()">简繁转换</app-button>
+          <app-button [handleClick]="handleSet">写入文件</app-button>
+        </div>
+        {{ content }}
+      </div>
+    </div>
+    <div appCol [md]="7" [xs]="24">
+      <ul class="file-list">
+        <li
+          *ngFor="let li of codes"
+          [class.active]="li.name === activeCode"
+          (click)="selectCode(li.name)"
+        >
+          {{ li.name }} {{ li.lang ? '/' + li.lang : '' }} in {{ li.confidence }}%
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -683,6 +683,12 @@ export interface Tags {
   }>;
   raw?: Tags;
 }
+
+export interface CUEType {
+  analyse: Array<{ confidence: number; name: string; lang?: string }>;
+  buffer: Uint8Array;
+}
+
 export interface ElectronAPI {
   handleFiles: (cb: (event: IpcRendererEvent, files: string[]) => void) => void;
   handleDirectory: (
@@ -690,4 +696,6 @@ export interface ElectronAPI {
   ) => void;
   invokeReadID3: (root: string, file: string) => PromiseLike<Tags>;
   invokeSetID3: (root: string, file: string, tags: Tags) => PromiseLike<boolean>;
+  invokeReadCue: (root: string, file: string) => PromiseLike<CUEType>;
+  invokeSetCue: (root: string, file: string, content: Uint8Array) => PromiseLike<void>;
 }

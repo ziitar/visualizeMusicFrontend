@@ -62,7 +62,6 @@ export class MusicComponent implements OnInit {
       if (files) {
         this.root = root;
         this.library = files;
-        event.sender.send('update-files', 1);
         this.changeDetectorRef.detectChanges();
       }
     });
@@ -141,7 +140,6 @@ export class MusicComponent implements OnInit {
           ...this.oldFileID3,
           ...this.fileID3,
         };
-        console.log(this.root, this.activeFile, margeTags);
         const result = await window.electronAPI.invokeSetID3(this.root, this.activeFile, margeTags);
         return result;
       }

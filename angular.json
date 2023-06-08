@@ -63,6 +63,14 @@
               ],
               "outputHashing": "all"
             },
+            "remote": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.remote.ts"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -79,6 +87,9 @@
           "configurations": {
             "production": {
               "browserTarget": "visualizeMusicFrontend:build:production"
+            },
+            "remote": {
+              "browserTarget": "visualizeMusicFrontend:build:remote"
             },
             "development": {
               "browserTarget": "visualizeMusicFrontend:build:development"

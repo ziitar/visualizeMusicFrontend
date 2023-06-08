@@ -1,0 +1,57 @@
+@import '../styles/themes/default.less';
+
+@height-offset: @padding-lg*2 + @height-input-base + 2 + @margin-md;
+
+.default-box{
+  border: 1px solid @border-color-base;
+  border-radius: @border-radius-base;
+  padding: 0 @padding-md;
+}
+
+.music-box {
+  width: 100%;
+  height: 100vh;
+  padding: @padding-lg;
+  overflow: hidden;
+
+  .root-field{
+    border: 1px solid @border-color-base;
+    border-radius: @border-radius-base;
+    padding: 0 @padding-md;
+    line-height: @height-input-base - 2;
+    margin-bottom: @margin-md;
+  }
+  .file-list{
+    width: 100%;
+    height: calc(100vh - @height-offset);
+    overflow: hidden;
+    overflow-y: auto;
+    .default-box;
+
+    li{
+      width: 100%;
+      margin: @margin-xs 0;
+      line-height: @font-line-height-sm;
+      border-bottom: 1px solid @border-color-split;
+      cursor: pointer;
+    }
+    li:hover{
+      background-color: fade(@table-row-hover-bg, 40%);
+    }
+    li.active{
+      background-color: fade(@primary-color-active, 40%)
+    }
+  }
+  .file-card{
+    width: 100%;
+    height: calc(100vh - @height-offset );
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+    .default-box;
+  }
+}
+
+.table-pagination{
+  margin-top: @margin-xs;
+}

@@ -33,6 +33,8 @@ import { TableComponent } from './components/table/table.component';
 import { RenderPipe } from './utils/pipe/render.pipe';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { MusicComponent } from './music/music.component';
+import { LibraryComponent } from './library/library.component';
+import { EncodeComponent } from './encode/encode.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { MusicComponent } from './music/music.component';
     RenderPipe,
     PaginationComponent,
     MusicComponent,
+    LibraryComponent,
+    EncodeComponent,
   ],
   imports: [
     BrowserModule,
