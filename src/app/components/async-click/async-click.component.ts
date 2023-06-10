@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./async-click.component.less'],
 })
 export class AsyncClickComponent<T extends Record<string, any>> {
-  constructor() {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
   loading = false;
   @Input() handleClick: ((e: MouseEvent, param?: T) => Subscription | void) | undefined;
   @Input() inline = false;
@@ -16,13 +16,16 @@ export class AsyncClickComponent<T extends Record<string, any>> {
   onClick(e: MouseEvent) {
     if (this.handleClick) {
       this.loading = true;
+      this.changeDetectorRef.detectChanges();
       const result = this.handleClick(e, this.param);
       if (result) {
         result.add(() => {
           this.loading = false;
+          this.changeDetectorRef.detectChanges();
         });
       } else {
         this.loading = false;
+        this.changeDetectorRef.detectChanges();
       }
     }
   }

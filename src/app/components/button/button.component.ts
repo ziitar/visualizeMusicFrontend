@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,21 +15,26 @@ export class ButtonComponent {
   }
   @Output() loadingStatus = new EventEmitter<boolean>();
 
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
   localLoading = false;
 
   onClick(e: MouseEvent) {
     if (this.handleClick && typeof this.handleClick === 'function') {
       this.localLoading = true;
       this.loadingStatus.emit(true);
+      this.changeDetectorRef.detectChanges();
       const result = this.handleClick(e);
       if (result) {
         result.add(() => {
           this.localLoading = false;
           this.loadingStatus.emit(false);
+          this.changeDetectorRef.detectChanges();
         });
       } else {
         this.localLoading = false;
         this.loadingStatus.emit(false);
+        this.changeDetectorRef.detectChanges();
       }
     }
   }

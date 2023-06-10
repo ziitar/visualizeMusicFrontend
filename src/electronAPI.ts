@@ -698,4 +698,6 @@ export interface ElectronAPI {
   invokeSetID3: (root: string, file: string, tags: Tags) => PromiseLike<boolean>;
   invokeReadCue: (root: string, file: string) => PromiseLike<CUEType>;
   invokeSetCue: (root: string, file: string, content: Uint8Array) => PromiseLike<void>;
+  invokeRmFile: (root: string, file: string, refresh: boolean) => PromiseLike<void>;
+  invokeAbsolutePath: (root: string, file: string) => PromiseLike<string>;
 }
