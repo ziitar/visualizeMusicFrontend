@@ -44,11 +44,11 @@
                 <li>歌名：{{ oldFileID3.title }}</li>
                 <li>歌手：{{ oldFileID3.artist }}</li>
                 <li>专辑：{{ oldFileID3.album }}</li>
-                <li>时长：{{ oldFileID3.comment?.text }}</li>
+                <li *ngIf="oldFileID3.comment">时长：{{ oldFileID3.comment[0] }}</li>
                 <li>年份：{{ oldFileID3.year }}</li>
-                <li>原始年份：{{ oldFileID3.originalYear }}</li>
-                <li>轨道编号：{{ oldFileID3.trackNumber }}</li>
-                <li>发行商：{{ oldFileID3.publisher }}</li>
+                <li *ngIf="oldFileID3.track">
+                  轨道编号：{{ oldFileID3.track.no }}/{{ oldFileID3.track.of }}
+                </li>
               </ul>
             </ng-container>
           </ng-container>
@@ -63,9 +63,8 @@
                 <li>歌名：{{ fileID3.title }}</li>
                 <li>歌手：{{ fileID3.artist }}</li>
                 <li>专辑：{{ fileID3.album }}</li>
-                <li>时长：{{ fileID3.comment?.text }}</li>
+                <li *ngIf="fileID3.comment">时长：{{ fileID3.comment[0] }}</li>
                 <li>年份：{{ fileID3.year }}</li>
-                <li>原始年份：{{ fileID3.originalYear }}</li>
               </ul>
               <app-button [handleClick]="setTags">设置为新tags</app-button>
             </ng-container>

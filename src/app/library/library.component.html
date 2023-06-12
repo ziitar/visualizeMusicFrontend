@@ -34,18 +34,14 @@
           <li>歌名：{{ fileID3.title }}</li>
           <li>歌手：{{ fileID3.artist }}</li>
           <li>专辑：{{ fileID3.album }}</li>
-          <li>时长：{{ fileID3.comment?.text }}</li>
+          <li *ngIf="fileID3.comment">时长：{{ fileID3.comment[0] }}</li>
           <li>年份：{{ fileID3.year }}</li>
-          <li>原始年份：{{ fileID3.originalYear }}</li>
-          <li>轨道编号：{{ fileID3.trackNumber }}</li>
-          <li>发行商：{{ fileID3.publisher }}</li>
+          <li *ngIf="fileID3.track">轨道编号：{{ fileID3.track.no }}/{{ fileID3.track.of }}</li>
         </ul>
         <app-button [handleClick]="deleteCurrentFile">删除此音乐文件</app-button>
         <app-button *ngIf="activeFile" [handleClick]="addCurrentFile"
           >添加音乐文件到数据库</app-button
         >
-        <app-button (click)="handlePlay()">播放</app-button>
-        <audio [src]="audioSrc" autoplay controls></audio>
       </div>
     </div>
     <div appCol [md]="12" [xs]="24">

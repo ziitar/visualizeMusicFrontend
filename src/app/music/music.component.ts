@@ -74,6 +74,7 @@ export class MusicComponent implements OnInit {
     this.activeFile = file;
     const fileID3 = await window.electronAPI?.invokeReadID3(this.root, file);
     if (fileID3) {
+      console.log(fileID3);
       if (fileID3.title) {
         this.searchName = `${fileID3.title} ${fileID3.artist || ''} ${fileID3.album || ''}`.trim();
       } else {
@@ -104,12 +105,8 @@ export class MusicComponent implements OnInit {
       title: result.name,
       artist: result.artists.map((item) => item.name).join(','),
       album: result.album.name,
-      year: year,
-      originalYear: year,
-      comment: {
-        language: '',
-        text: msToTime(result.duration),
-      },
+      year: Number(year),
+      comment: [msToTime(result.duration)],
     };
     if (picUrl) {
       tags.image = picUrl;

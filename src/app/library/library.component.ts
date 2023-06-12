@@ -114,8 +114,8 @@ export class LibraryComponent implements OnInit {
           artist: this.fileID3.artist,
           album: this.fileID3.album,
           albumartist: this.fileID3.artist,
-          year: this.fileID3.year ? parseInt(this.fileID3.year) : undefined,
-          duration: this.fileID3.comment?.text,
+          year: this.fileID3.year ? this.fileID3.year : undefined,
+          duration: this.fileID3.comment && this.fileID3.comment[0],
           url: await window.electronAPI.invokeAbsolutePath(this.root, this.activeFile),
           type: 'single' as const,
         };
