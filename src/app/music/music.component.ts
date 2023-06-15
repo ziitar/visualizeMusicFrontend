@@ -74,7 +74,6 @@ export class MusicComponent implements OnInit {
     this.activeFile = file;
     const fileID3 = await window.electronAPI?.invokeReadID3(this.root, file);
     if (fileID3) {
-      console.log(fileID3);
       if (fileID3.title) {
         this.searchName = `${fileID3.title} ${fileID3.artist || ''} ${fileID3.album || ''}`.trim();
       } else {

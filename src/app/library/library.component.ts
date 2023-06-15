@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { Tags } from 'src/electronAPI';
 import { ColumnsType } from '../components/table/table.component';
 import { LocalSongType, SaveLocalSongType, SongService } from '../utils/services/song.service';
@@ -6,10 +6,10 @@ import { isEmptyObject, isTrulyValue } from 'src/utils/utils';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NotificationService } from '../utils/services/notification.service';
 import { catchError, from, firstValueFrom } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 const typeMap = {
   single: '分轨',
-  tracks: '正轨',
+  tracks: '整轨',
 };
 
 @Component({
@@ -28,6 +28,12 @@ export class LibraryComponent implements OnInit {
     {
       title: '删除',
       key: 'operation',
+      temp: true,
+      width: 40,
+    },
+    {
+      title: '播放',
+      key: 'play',
       temp: true,
       width: 40,
     },
@@ -63,11 +69,14 @@ export class LibraryComponent implements OnInit {
     },
   ];
   songs: LocalSongType[] = [];
+  audioSafeUrl: SafeUrl | undefined;
+  #audio: HTMLAudioElement | undefined;
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private songService: SongService,
     private sanitizer: DomSanitizer,
     private notification: NotificationService,
+    private el: ElementRef<Element>,
   ) {
     window.electronAPI?.handleDirectory((event, root, files) => {
       if (files) {
@@ -78,7 +87,9 @@ export class LibraryComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.#audio = this.el.nativeElement.querySelector('#audio') as HTMLAudioElement;
+  }
 
   async handleActive(file: string) {
     this.resetVar();
@@ -233,5 +244,19 @@ export class LibraryComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     });
+  }
+  setAudioSafeUrl(url: string) {
+    const encodeUrl = encodeURIComponent(url);
+    this.audioSafeUrl = this.sanitizer.bypassSecurityTrustUrl(
+      `${environment.service}/assets/proxy/${encodeUrl}`,
+    );
+    this.changeDetectorRef.detectChanges();
+    this.#audio && this.#audio.load();
+  }
+  async setCurrentUrl() {
+    if (this.activeFile && this.root) {
+      const url = await window.electronAPI.invokeAbsolutePath(this.root, this.activeFile);
+      this.setAudioSafeUrl(url);
+    }
   }
 }

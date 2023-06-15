@@ -1,6 +1,9 @@
 <div class="music-box">
   <div appRow [gutter]="12" [flex]="true" [flexNowrap]="true">
-    <div appCol [md]="16" [xs]="24" class="root-field">root directory:{{ root }}</div>
+    <div appCol [md]="8" [xs]="24" class="root-field">root directory:{{ root }}</div>
+    <div appCol [md]="8" [xs]="24">
+      <audio id="audio" [src]="audioSafeUrl" autoplay controls></audio>
+    </div>
     <div appCol [md]="8" [xs]="24">
       <input
         type="text"
@@ -42,6 +45,7 @@
         <app-button *ngIf="activeFile" [handleClick]="addCurrentFile"
           >添加音乐文件到数据库</app-button
         >
+        <app-button *ngIf="activeFile" (click)="setCurrentUrl()">播放</app-button>
       </div>
     </div>
     <div appCol [md]="12" [xs]="24">
@@ -50,12 +54,15 @@
         [data]="songs"
         [small]="true"
         [columns]="columns"
-        [columnTemp]="{ operation }"
+        [columnTemp]="{ operation, play }"
       >
         <ng-template #operation let-data="data" let-index="index" let-key="key">
           <app-async-click [handleClick]="deleteLibraryFile" [param]="data">
             <span class="delete"></span>
           </app-async-click>
+        </ng-template>
+        <ng-template #play let-data="data" let-index="index" let-key="key">
+          <span class="playFill" (click)="setAudioSafeUrl(data.url)"> </span>
         </ng-template>
       </app-table>
     </div>

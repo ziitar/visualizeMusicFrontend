@@ -17,7 +17,7 @@
     <li [class.active]="pageNo === item" *ngIf="!(l || f)">
       <app-button (click)="handlePageNoChange(item)">{{ item }}</app-button>
     </li>
-    <ng-container *ngIf="l">
+    <ng-container *ngIf="l && !f">
       <li *ngIf="!rContinuity">
         <app-button>...</app-button>
       </li>
