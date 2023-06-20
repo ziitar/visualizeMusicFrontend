@@ -17,6 +17,15 @@ export function isEmptyObject(obj: { [key: string]: any }): boolean {
   }
   return true;
 }
+type FalseValue = undefined | null | '' | false;
+export function isFalseValue(v: any): v is FalseValue {
+  if (v === 0) {
+    return false;
+  } else {
+    return !v;
+  }
+}
+
 export function isTrulyValue(v: any): boolean {
   if (v === 0) {
     return true;

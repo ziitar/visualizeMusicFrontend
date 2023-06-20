@@ -5,14 +5,16 @@ import { Subject } from 'rxjs';
 import { isSongDetailType, isSongUrlType, PlayListItemType } from './playlist.service';
 import { distinctUntilChanged } from 'rxjs';
 
+interface BaseType {
+  id: number;
+  name: string;
+}
+
 export interface SongDetailType {
   id: number;
   name: string;
   imgUrl?: string;
-  artists: {
-    id: number;
-    name: string;
-  }[];
+  artists: BaseType[];
 }
 
 export interface SongUrlType {
@@ -26,10 +28,17 @@ export interface SongDetailResultType {
   picUrl: string;
   pic_str: string;
   pic: number;
-  artists: {
-    id: number;
-    name: string;
-  }[];
+  artists: BaseType[];
+}
+
+export interface AlbumDetailResultType {
+  songs: BaseType[];
+  album: {
+    artists: BaseType[];
+    company?: string;
+    picUrl: string;
+    publishTime?: number;
+  };
 }
 
 export type SongResultType = {
@@ -124,6 +133,10 @@ export class SongService {
 
   getSongMsg(id: number) {
     return this.service.get<ResponseJSONType<SongDetailResultType>>(`/cloudApi/song/detail/${id}`);
+  }
+
+  getAlbum(id: number) {
+    return this.service.get<AlbumDetailResultType & { code: number }>(`/cloudApi/album/${id}`);
   }
 
   private _getSongMsg(id: number) {

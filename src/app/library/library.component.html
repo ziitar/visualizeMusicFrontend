@@ -34,11 +34,14 @@
           </div>
         </div>
         <ul>
-          <li>歌名：{{ fileID3.title }}</li>
-          <li>歌手：{{ fileID3.artist }}</li>
+          <li>标题：{{ fileID3.title }}</li>
+          <li>艺术家：{{ fileID3.artists }}</li>
           <li>专辑：{{ fileID3.album }}</li>
+          <li>专辑艺术家：{{ fileID3.albumartist }}</li>
           <li *ngIf="fileID3.comment">时长：{{ fileID3.comment[0] }}</li>
           <li>年份：{{ fileID3.year }}</li>
+          <li>发行日期：{{ fileID3.date }}</li>
+          <li>发行公司：{{ fileID3.label }}</li>
           <li *ngIf="fileID3.track">轨道编号：{{ fileID3.track.no }}/{{ fileID3.track.of }}</li>
         </ul>
         <app-button [handleClick]="deleteCurrentFile">删除此音乐文件</app-button>

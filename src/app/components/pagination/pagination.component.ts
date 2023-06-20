@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-const showPaginationNum = 5;
-
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',

@@ -2,10 +2,10 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Tags } from 'src/electronAPI';
 import { ColumnsType } from '../components/table/table.component';
 import { SearchSongType, SongService } from '../utils/services/song.service';
-import { isTrulyValue, msToTime } from 'src/utils/utils';
+import { isFalseValue, isTrulyValue, msToTime } from 'src/utils/utils';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NotificationService } from '../utils/services/notification.service';
-import { from } from 'rxjs';
+import { from, zip } from 'rxjs';
 
 @Component({
   selector: 'app-music',
@@ -98,14 +98,22 @@ export class MusicComponent implements OnInit {
     }
     this.changeDetectorRef.detectChanges();
   }
-  setID3(result: SearchSongType, picUrl?: string) {
+  setID3(
+    result: SearchSongType & Pick<Tags, 'track' | 'date' | 'albumartist' | 'label'>,
+    picUrl?: string,
+  ) {
     const year = `${new Date(result.album.publishTime).getFullYear()}`;
     const tags: Tags = {
       title: result.name,
-      artist: result.artists.map((item) => item.name).join(','),
+      artist: result.artists.map((item) => item.name).join('/'),
+      artists: result.artists.map((item) => item.name),
+      albumartist: result.albumartist,
       album: result.album.name,
       year: Number(year),
       comment: [msToTime(result.duration)],
+      track: result.track,
+      date: result.date,
+      label: result.label,
     };
     if (picUrl) {
       tags.image = picUrl;
@@ -116,12 +124,31 @@ export class MusicComponent implements OnInit {
   }
   getMsg = (event: MouseEvent, data?: SearchSongType) => {
     if (data) {
-      return this.songService.getSongMsg(data.id).subscribe((res) => {
+      return zip([
+        this.songService.getSongMsg(data.id),
+        this.songService.getAlbum(data.album.id),
+      ]).subscribe(([res, albumRes]) => {
         if (res.code === 200 && res.result) {
           this.tableSelectId = data.id;
           const picUrl = `${res.result.picUrl}?param=500y500`;
           this.imgUrl = picUrl;
-          this.setID3(data, picUrl);
+          const extendsData: Pick<Tags, 'track' | 'date' | 'albumartist' | 'label'> = {};
+          if (albumRes.code === 200) {
+            if (albumRes.album.company) extendsData.label = [albumRes.album.company];
+            if (!isFalseValue(albumRes.album.publishTime)) {
+              extendsData.date = new Date(albumRes.album.publishTime)
+                .toLocaleDateString()
+                .replace(/\//g, '-');
+            }
+            if (albumRes.songs && albumRes.songs.length) {
+              extendsData.track = {
+                of: albumRes.songs.length,
+                no: albumRes.songs.findIndex((item) => item.id === data.id) + 1,
+              };
+            }
+            extendsData.albumartist = albumRes.album.artists.map((item) => item.name).join('/');
+          }
+          this.setID3({ ...data, ...extendsData }, picUrl);
         } else {
           this.setID3(data);
         }
@@ -175,7 +202,8 @@ export class MusicComponent implements OnInit {
     }
   }
   handleSearch() {
-    this.songService.getSearchSong(this.searchName || '', this.pageNo, 10).subscribe((data) => {
+    const search = encodeURIComponent(this.searchName || '');
+    this.songService.getSearchSong(search, this.pageNo, 10).subscribe((data) => {
       if (data.code) {
         this.songs = data.result?.songs || [];
         this.total = data.result?.songCount || 0;
@@ -186,5 +214,6 @@ export class MusicComponent implements OnInit {
   handlePageChange(pageNo: number) {
     this.pageNo = pageNo;
     this.handleSearch();
+    this.changeDetectorRef.detectChanges();
   }
 }
