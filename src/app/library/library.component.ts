@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core'
 import { Tags } from 'src/electronAPI';
 import { ColumnsType } from '../components/table/table.component';
 import { LocalSongType, SaveLocalSongType, SongService } from '../utils/services/song.service';
-import { isEmptyObject, isTrulyValue } from 'src/utils/utils';
+import { isEmptyObject, isTrulyValue, msToTime } from 'src/utils/utils';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NotificationService } from '../utils/services/notification.service';
 import { catchError, from, firstValueFrom } from 'rxjs';
@@ -22,6 +22,7 @@ export class LibraryComponent implements OnInit {
   root = '';
   activeFile: undefined | string;
   fileID3: Tags = {};
+  fileDuration = '-';
   imgUrl: string | SafeUrl | undefined;
   searchContent = '';
   columns: ColumnsType<LocalSongType>[] = [
@@ -94,11 +95,12 @@ export class LibraryComponent implements OnInit {
   async handleActive(file: string) {
     this.resetVar();
     this.activeFile = file;
-    const fileID3 = await window.electronAPI?.invokeReadID3(this.root, file);
+    const { common: fileID3, format } = await window.electronAPI.invokeReadID3(this.root, file);
     if (fileID3 && (fileID3.title || fileID3.artist)) {
       this.searchContent = [fileID3.artist || '', fileID3.title].join('-');
       this.handleSearch();
       this.fileID3 = fileID3;
+      if (format.duration) this.fileDuration = msToTime(format.duration * 1000);
       if (fileID3.image) {
         if (typeof fileID3.image === 'string') {
           this.imgUrl = fileID3.image;
@@ -228,6 +230,7 @@ export class LibraryComponent implements OnInit {
 
   resetVar() {
     this.activeFile = undefined;
+    this.fileDuration = '-';
     this.imgUrl = undefined;
     this.songs = [];
   }

@@ -20,6 +20,7 @@ export class MusicComponent implements OnInit {
   fileID3: undefined | Tags;
   oldFileID3: undefined | Tags;
   oldImgUrl: undefined | SafeUrl;
+  oldFileDuration = '-';
   imgUrl: undefined | SafeUrl;
   searchName: undefined | string;
   columns: ColumnsType<SearchSongType>[] = [
@@ -72,7 +73,7 @@ export class MusicComponent implements OnInit {
   async handleActive(file: string) {
     this.resetVar();
     this.activeFile = file;
-    const fileID3 = await window.electronAPI?.invokeReadID3(this.root, file);
+    const { common: fileID3, format } = await window.electronAPI.invokeReadID3(this.root, file);
     if (fileID3) {
       if (fileID3.title) {
         this.searchName = `${fileID3.title} ${fileID3.artist || ''} ${fileID3.album || ''}`.trim();
@@ -81,6 +82,7 @@ export class MusicComponent implements OnInit {
       }
       this.handleSearch();
       this.oldFileID3 = fileID3;
+      if (format.duration) this.oldFileDuration = msToTime(format.duration * 1000);
       if (fileID3.image) {
         if (typeof fileID3.image === 'string') {
           this.oldImgUrl = fileID3.image;
@@ -110,7 +112,6 @@ export class MusicComponent implements OnInit {
       albumartist: result.albumartist,
       album: result.album.name,
       year: Number(year),
-      comment: [msToTime(result.duration)],
       track: result.track,
       date: result.date,
       label: result.label,
@@ -185,6 +186,7 @@ export class MusicComponent implements OnInit {
   resetVar() {
     this.activeFile = undefined;
     this.oldFileID3 = undefined;
+    this.oldFileDuration = '-';
     this.fileID3 = undefined;
     this.oldImgUrl = undefined;
     this.imgUrl = undefined;

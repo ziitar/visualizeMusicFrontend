@@ -477,7 +477,82 @@ export interface Tags {
         imageBuffer: ArrayBuffer;
       };
 }
-
+type TagType =
+  | 'vorbis'
+  | 'ID3v1'
+  | 'ID3v2.2'
+  | 'ID3v2.3'
+  | 'ID3v2.4'
+  | 'APEv2'
+  | 'asf'
+  | 'iTunes'
+  | 'exif'
+  | 'matroska'
+  | 'AIFF';
+export interface IFormat {
+  /**
+   * E.g.: 'flac'
+   */
+  readonly container?: string;
+  /**
+   * List of tags found in parsed audio file
+   */
+  readonly tagTypes?: TagType[];
+  /**
+   * Duration in seconds
+   */
+  readonly duration?: number;
+  /**
+   * Number bits per second of encoded audio file
+   */
+  readonly bitrate?: number;
+  /**
+   * Sampling rate in Samples per second (S/s)
+   */
+  readonly sampleRate?: number;
+  /**
+   * Audio bit depth
+   */
+  readonly bitsPerSample?: number;
+  /**
+   * Encoder brand, e.g.: LAME3.99r
+   */
+  readonly tool?: string;
+  /**
+   * Encoder name / compressionType, e.g.: 'PCM', 'ITU-T G.711 mu-law'
+   */
+  readonly codec?: string;
+  /**
+   * Codec profile
+   */
+  readonly codecProfile?: string;
+  readonly lossless?: boolean;
+  /**
+   * Number of audio channels
+   */
+  readonly numberOfChannels?: number;
+  /**
+   * Number of samples frames.
+   * One sample contains all channels
+   * The duration is: numberOfSamples / sampleRate
+   */
+  readonly numberOfSamples?: number;
+  /**
+   * 16-byte MD5 of raw audio
+   */
+  readonly audioMD5?: ArrayBuffer;
+  /**
+   * Time file was created
+   */
+  readonly creationTime?: Date;
+  /**
+   * Time file was modified
+   */
+  readonly modificationTime?: Date;
+  readonly trackGain?: number;
+  readonly trackPeakLevel?: number;
+  readonly albumGain?: number;
+}
 export interface CUEType {
   analyse: Array<{ confidence: number; name: string; lang?: string }>;
   buffer: Uint8Array;
@@ -488,7 +563,7 @@ export interface ElectronAPI {
   handleDirectory: (
     cb: (event: IpcRendererEvent, root: string, fileList: string[]) => void,
   ) => void;
-  invokeReadID3: (root: string, file: string) => PromiseLike<Tags>;
+  invokeReadID3: (root: string, file: string) => PromiseLike<{ common: Tags; format: IFormat }>;
   invokeSetID3: (root: string, file: string, tags: Tags) => PromiseLike<boolean>;
   invokeReadCue: (root: string, file: string) => PromiseLike<CUEType>;
   invokeSetCue: (root: string, file: string, content: Uint8Array) => PromiseLike<void>;

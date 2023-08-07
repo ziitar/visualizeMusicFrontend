@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserInfo } from './user';
 import { ResponseJSONType } from '../utils/services/httpResponseJSON';
 import { Router } from '@angular/router';
-import { ReplaySubject, map } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
 export interface UserServiceMsg {
   isLogin: boolean;
