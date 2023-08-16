@@ -68,17 +68,19 @@ export interface LocalSongType {
   type: 'tracks' | 'single';
   url: string;
   title?: string;
-  artist?: string;
+  artist?: string[];
   album?: string;
-  albumartist?: string;
   year?: number;
-  picUrl: string;
+  image?: string;
   duration?: string;
+  trackTotal?: number;
+  trackNo?: number;
+  lossless?: number;
+  sampleRate?: string;
+  start?: number;
+  bitrate?: number;
 }
-export type SaveLocalSongType = Omit<LocalSongType, 'picUrl' | 'id'> & {
-  picUrl?: string;
-  file?: Blob;
-};
+
 export type SearchSongResultType = {
   songs: SearchSongType[];
   hasMore: boolean;
@@ -96,9 +98,19 @@ export class SongService {
 
   constructor(private service: HttpClient) {}
 
-  getSearchLocalSong(title: string, artist: string) {
+  getSearchLocalSong(
+    o: { title?: string; artist?: string; album?: string },
+    page: number,
+    pageSize: number,
+  ) {
+    const params = Object.entries(o)
+      .filter((item) => item[1] !== undefined)
+      .map((item) => `${item[0]}=${item[1]}`)
+      .join('&');
     return this.service
-      .get<ResponseJSONType<LocalSongType[]>>(`/songs/search?title=${title}&artist=${artist}`)
+      .get<ResponseJSONType<LocalSongType[]>>(
+        `/songs/search?title=${params}&page=${page}&pageSize=${pageSize}`,
+      )
       .pipe(distinctUntilChanged());
   }
 
@@ -106,18 +118,6 @@ export class SongService {
     return this.service
       .delete<ResponseJSONType<boolean>>(`/songs/${id}`)
       .pipe(distinctUntilChanged());
-  }
-
-  addLocalSong(data: SaveLocalSongType) {
-    const formData = new FormData();
-    for (const [key, value] of Object.entries(data)) {
-      if (key !== 'file') {
-        formData.append(key, `${value as string}`);
-      } else {
-        formData.append(key, value as Blob, data.album);
-      }
-    }
-    return this.service.post<ResponseJSONType<boolean>>('/songs/create', formData);
   }
 
   getSearchSong(key: string, pageNo: number, pageSize: number) {

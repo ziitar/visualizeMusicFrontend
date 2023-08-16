@@ -2,6 +2,7 @@ import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MD5 } from 'crypto-js';
+import { passwordReg } from 'src/utils/utils';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -17,15 +18,9 @@ export class RegisterComponent implements OnInit {
       return null;
     },
   ]);
-  password = new FormControl(null, [
-    Validators.required,
-    Validators.pattern('^[\\w_\\-%#@$!*]{6,}$'),
-  ]);
+  password = new FormControl(null, [Validators.required, Validators.pattern(passwordReg)]);
   email = new FormControl(null, [Validators.pattern('^[\\w]+@[\\da-zA-Z.]+\\.[a-zA-Z]+$')]);
-  repassword = new FormControl(null, [
-    Validators.required,
-    Validators.pattern('^[\\w_\\-%#@$!*]{6,}$'),
-  ]);
+  repassword = new FormControl(null, [Validators.required, Validators.pattern(passwordReg)]);
   form: FormGroup = new FormGroup(
     {
       username: this.username,

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { Tags } from 'src/electronAPI';
 import { ColumnsType } from '../components/table/table.component';
-import { LocalSongType, SaveLocalSongType, SongService } from '../utils/services/song.service';
+import { LocalSongType, SongService } from '../utils/services/song.service';
 import { isEmptyObject, isTrulyValue, msToTime } from 'src/utils/utils';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NotificationService } from '../utils/services/notification.service';
@@ -119,44 +119,6 @@ export class LibraryComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  addCurrentFile = () => {
-    const run = async () => {
-      if (!isEmptyObject(this.fileID3) && this.activeFile) {
-        const data: SaveLocalSongType = {
-          title: this.fileID3.title,
-          artist: this.fileID3.artist,
-          album: this.fileID3.album,
-          albumartist: this.fileID3.artist,
-          year: this.fileID3.year ? this.fileID3.year : undefined,
-          duration: this.fileID3.comment && this.fileID3.comment[0],
-          url: await window.electronAPI.invokeAbsolutePath(this.root, this.activeFile),
-          type: 'single' as const,
-        };
-        if (this.fileID3.image) {
-          if (typeof this.fileID3.image === 'string') {
-            data.picUrl = this.fileID3.image;
-          } else {
-            data.file = new Blob([this.fileID3.image.imageBuffer], {
-              type: this.fileID3.image.mime || 'image/jpeg',
-            });
-          }
-        }
-        const res = await firstValueFrom(this.songService.addLocalSong(data));
-        return { res, title: data.title };
-      }
-      return;
-    };
-    return from(run()).subscribe((res) => {
-      if (res && res.res.result) {
-        this.notification.success({
-          title: '添加成功',
-          message: `已将${res.title || ''}添加到数据库`,
-        });
-      }
-      this.changeDetectorRef.detectChanges();
-    });
-  };
-
   deleteCurrentFile = () => {
     if (this.activeFile) {
       const run = async () => {
@@ -241,7 +203,7 @@ export class LibraryComponent implements OnInit {
   }
   handleSearch() {
     const [artist, title] = this.searchContent.split('-');
-    this.songService.getSearchLocalSong(title, artist).subscribe((data) => {
+    this.songService.getSearchLocalSong({ title, artist }).subscribe((data) => {
       if (data.code) {
         this.songs = data.result || [];
         this.changeDetectorRef.detectChanges();

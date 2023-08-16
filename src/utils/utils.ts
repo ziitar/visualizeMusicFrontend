@@ -72,3 +72,5 @@ export function msToTime(duration: number): string {
     .toString()
     .padStart(2, '0')}`;
 }
+
+export const passwordReg = '^[\\w_\\-%#@$!&*]{6,}$';

@@ -8,6 +8,8 @@ import { LayoutComponent as MainLayout } from './main/layout/layout.component';
 import { MusicComponent } from './music/music.component';
 import { EncodeComponent } from './encode/encode.component';
 import { LibraryComponent } from './library/library.component';
+import { SheetListComponent } from './main/content/sheet-list/sheet-list.component';
+import { AuthGuard } from './auth/auth.guard';
 const routes: Routes = [
   {
     path: 'user',
@@ -49,6 +51,11 @@ const routes: Routes = [
       {
         path: 'search',
         component: SearchComponent,
+      },
+      {
+        path: 'sheetList/:sheetId',
+        component: SheetListComponent,
+        canActivate: [AuthGuard],
       },
       { path: '', pathMatch: 'full', redirectTo: 'search' },
     ],

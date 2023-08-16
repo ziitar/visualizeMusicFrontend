@@ -61,18 +61,22 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   getSongResult(snapshot?: string) {
-    this.songService
-      .getSearchSong(snapshot || this.searchContent, this.pageNo, this.pageSize)
-      .subscribe((data) => {
-        if (data.code) {
-          this.result = data.result?.songs || [];
-          this.total = data.result?.songCount || 0;
-          if (!snapshot) {
-            this._snapshot = this.searchContent;
-            this.pageNo = 1;
-          }
+    const search = (snapshot || this.searchContent).split('-');
+    const params = {
+      title: search[0],
+      artist: search[1],
+      album: search[2],
+    };
+    this.songService.getSearchLocalSong(params, this.pageNo, this.pageSize).subscribe((data) => {
+      if (data.code) {
+        this.result = data.result?.songs || [];
+        this.total = data.result?.songCount || 0;
+        if (!snapshot) {
+          this._snapshot = this.searchContent;
+          this.pageNo = 1;
         }
-      });
+      }
+    });
   }
 
   handleKeyDown(event: KeyboardEvent) {

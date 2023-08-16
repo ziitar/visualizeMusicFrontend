@@ -2,6 +2,7 @@ import { UserService } from './../user.service';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MD5 } from 'crypto-js';
+import { passwordReg } from 'src/utils/utils';
 
 @Component({
   selector: 'app-login',
@@ -18,10 +19,7 @@ export class LoginComponent {
       return null;
     },
   ]);
-  password = new FormControl(null, [
-    Validators.required,
-    Validators.pattern('^[\\w_\\-%#@$!*]{6,}$'),
-  ]);
+  password = new FormControl(null, [Validators.required, Validators.pattern(passwordReg)]);
   form: FormGroup = new FormGroup({
     username: this.username,
     password: this.password,

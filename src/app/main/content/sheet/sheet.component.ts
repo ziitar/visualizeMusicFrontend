@@ -18,10 +18,12 @@ export class SheetComponent implements OnInit, OnDestroy {
     this.subscription = this.user.isLoginObservable.subscribe((data) => {
       this.isLogin = data.isLogin;
       if (this.isLogin) {
+        this.userId = data.user?.id;
         this.getSheets();
       }
     });
   }
+  userId: number | undefined;
   sheets: Sheet[] = [];
   isLogin = false;
   subscription;

@@ -35,6 +35,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { MusicComponent } from './music/music.component';
 import { LibraryComponent } from './library/library.component';
 import { EncodeComponent } from './encode/encode.component';
+import { SheetListComponent } from './main/content/sheet-list/sheet-list.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { EncodeComponent } from './encode/encode.component';
     MusicComponent,
     LibraryComponent,
     EncodeComponent,
+    SheetListComponent,
   ],
   imports: [
     BrowserModule,
