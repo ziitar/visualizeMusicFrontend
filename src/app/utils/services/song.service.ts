@@ -70,11 +70,14 @@ export interface LocalSongType {
   title?: string;
   artist?: string[];
   album?: string;
+  albumId?: number;
   year?: number;
   image?: string;
   duration?: string;
   trackTotal?: number;
   trackNo?: number;
+  diskTotal?: number;
+  diskNo?: number;
   lossless?: number;
   sampleRate?: string;
   start?: number;
@@ -108,8 +111,10 @@ export class SongService {
       .map((item) => `${item[0]}=${item[1]}`)
       .join('&');
     return this.service
-      .get<ResponseJSONType<LocalSongType[]>>(
-        `/songs/search?title=${params}&page=${page}&pageSize=${pageSize}`,
+      .get<ResponseJSONType<{ data: LocalSongType[]; total: number }>>(
+        `/songs/search?${params}${params ? '&' : ''}limit=${pageSize}&offset=${
+          (page - 1) * pageSize
+        }`,
       )
       .pipe(distinctUntilChanged());
   }

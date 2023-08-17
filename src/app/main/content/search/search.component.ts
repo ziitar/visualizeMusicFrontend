@@ -2,7 +2,7 @@ import { WindowResizeService } from './../../../utils/services/window-resize.ser
 import { PlaylistService } from './../../../utils/services/playlist.service';
 import { ColumnsType } from './../../../components/table/table.component';
 import { isTrulyValue } from 'src/utils/utils';
-import { SearchSongType, SongService } from './../../../utils/services/song.service';
+import { LocalSongType, SearchSongType, SongService } from './../../../utils/services/song.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
@@ -15,8 +15,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   total = 0;
   pageNo = 1;
   pageSize = 25;
-  result: SearchSongType[] = [];
-  columns: ColumnsType<SearchSongType>[] = [
+  result: LocalSongType[] = [];
+  columns: ColumnsType<LocalSongType>[] = [
     {
       title: '操作',
       key: 'operation',
@@ -24,22 +24,19 @@ export class SearchComponent implements OnInit, OnDestroy {
       width: 120,
     },
     {
-      key: 'name',
+      key: 'title',
       title: '歌名',
     },
     {
-      key: 'artists',
+      key: 'artist',
       title: '作者',
       render: (data) => {
-        return data.artists.map((item) => item.name).join();
+        return data.artist?.join() || '';
       },
     },
     {
       title: '专辑',
       key: 'album',
-      render: (data) => {
-        return data.album.name;
-      },
     },
   ];
   scrollY = 0;
@@ -68,9 +65,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       album: search[2],
     };
     this.songService.getSearchLocalSong(params, this.pageNo, this.pageSize).subscribe((data) => {
-      if (data.code) {
-        this.result = data.result?.songs || [];
-        this.total = data.result?.songCount || 0;
+      if (data.status) {
+        this.result = data.result?.data || [];
+        this.total = data.result?.total || 0;
         if (!snapshot) {
           this._snapshot = this.searchContent;
           this.pageNo = 1;

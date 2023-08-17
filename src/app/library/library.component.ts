@@ -203,9 +203,9 @@ export class LibraryComponent implements OnInit {
   }
   handleSearch() {
     const [artist, title] = this.searchContent.split('-');
-    this.songService.getSearchLocalSong({ title, artist }).subscribe((data) => {
-      if (data.code) {
-        this.songs = data.result || [];
+    this.songService.getSearchLocalSong({ title, artist }, 1, 10).subscribe((data) => {
+      if (data.status) {
+        this.songs = data.result?.data || [];
         this.changeDetectorRef.detectChanges();
       }
     });
