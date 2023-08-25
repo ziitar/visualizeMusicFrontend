@@ -1,12 +1,15 @@
+import { ConfigService } from './config.service';
 import { ResponseJSONType } from 'src/app/utils/services/httpResponseJSON';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { isSongDetailType, isSongUrlType, PlayListItemType } from './playlist.service';
 import { distinctUntilChanged } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { formatLocalSongMsg } from 'src/utils/utils';
 
 interface BaseType {
-  id: number;
+  id?: number;
   name: string;
 }
 
@@ -67,8 +70,8 @@ export interface LocalSongType {
   id: number;
   type: 'tracks' | 'single';
   url: string;
-  title?: string;
-  artist?: string[];
+  title: string;
+  artist: string[];
   album?: string;
   albumId?: number;
   year?: number;
@@ -99,7 +102,7 @@ export class SongService {
   songMsgObserver = this.songMsgSubject.asObservable();
   songUrlObserver = this.songUrlSubject.asObservable();
 
-  constructor(private service: HttpClient) {}
+  constructor(private service: HttpClient, private configService: ConfigService) {}
 
   getSearchLocalSong(
     o: { title?: string; artist?: string; album?: string },
@@ -185,5 +188,13 @@ export class SongService {
     } else {
       this.getSongUrl(song.id);
     }
+  }
+
+  setLocalSong(song: LocalSongType) {
+    const songC = formatLocalSongMsg(song, this.configService.bitrate);
+    this.songMsgSubject.next({
+      ...songC,
+    });
+    this.songUrlSubject.next({ ...songC });
   }
 }

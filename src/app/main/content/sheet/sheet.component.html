@@ -2,9 +2,7 @@
   <ul class="sheets" *ngIf="userId !== 1">
     <li class="sheet" [routerLink]="['/sheetList', 1]">
       系统歌单
-      <app-async-click class="sheetRight" [inline]="true">
-        <span class="delete"></span>
-      </app-async-click>
+      <app-async-click class="sheetRight" [inline]="true"> </app-async-click>
     </li>
   </ul>
   <div *ngIf="sheets.length">

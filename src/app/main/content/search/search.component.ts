@@ -1,8 +1,9 @@
+import { ConfigService } from './../../../utils/services/config.service';
 import { WindowResizeService } from './../../../utils/services/window-resize.service';
 import { PlaylistService } from './../../../utils/services/playlist.service';
 import { ColumnsType } from './../../../components/table/table.component';
-import { isTrulyValue } from 'src/utils/utils';
-import { LocalSongType, SearchSongType, SongService } from './../../../utils/services/song.service';
+import { formatLocalSongMsg, isTrulyValue } from 'src/utils/utils';
+import { LocalSongType, SongService } from './../../../utils/services/song.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
@@ -46,6 +47,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private songService: SongService,
     private playlistService: PlaylistService,
     private windowResize: WindowResizeService,
+    private configService: ConfigService,
   ) {
     this._windowResizeSubscription = this.windowResize.resizeObservable.subscribe((data) => {
       const [_, innerHeight] = data;
@@ -85,10 +87,11 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.pageNo = pageNo;
     this.getSongResult(this._snapshot);
   }
-  handlePlay(data: SearchSongType) {
-    this.playlistService.addSong(data);
-    this.playlistService.setPlayingId(data.id);
-    this.songService.setSong(data);
+  handlePlay(data: LocalSongType) {
+    const song = formatLocalSongMsg(data, this.configService.bitrate);
+    this.playlistService.addSong(song);
+    this.playlistService.setPlayingId(song.id);
+    this.songService.setSong(song);
   }
 
   ngOnDestroy(): void {

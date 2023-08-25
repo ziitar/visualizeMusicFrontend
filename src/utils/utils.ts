@@ -1,3 +1,7 @@
+import { BitRate } from 'src/app/utils/services/config.service';
+import { LocalSongType, SongDetailType, SongUrlType } from 'src/app/utils/services/song.service';
+import { environment } from 'src/environments/environment';
+
 export function isObj<T extends Record<string | number, any>>(obj: any): obj is T {
   return /^\[object\sObject\]$/.test(Object.prototype.toString.call(obj));
 }
@@ -74,3 +78,29 @@ export function msToTime(duration: number): string {
 }
 
 export const passwordReg = '^[\\w_\\-%#@$!&*]{6,}$';
+
+export function formatLocalSongMsg(
+  song: LocalSongType,
+  bitrate: BitRate,
+): SongDetailType & SongUrlType {
+  let songUrl = encodeURIComponent(song.url);
+  const filterKey = ['duration', 'start', 'type', 'title', 'album', 'artist'];
+  let extra = '';
+  if (bitrate === '1') {
+    extra = `&lossless=${bitrate}`;
+  } else {
+    extra = `&lossless=0&bitrate=${bitrate}`;
+  }
+  songUrl = `${environment.service}/assets/decode/${songUrl}?${Object.entries(song)
+    .filter(([key, value]) => filterKey.includes(key) && value)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
+    .join('&')}${extra}`;
+  const imgUrl = song.image ? `${environment.service}${song.image}` : undefined;
+  return {
+    id: song.id,
+    name: song.title,
+    imgUrl,
+    url: songUrl,
+    artists: song.artist.map((item) => ({ name: item })),
+  };
+}

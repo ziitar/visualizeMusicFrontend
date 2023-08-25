@@ -44,7 +44,7 @@ export class FooterComponent implements OnInit {
   ) {
     this.audioContext = new AudioContent(256);
     this.songService.songMsgObserver.subscribe((data) => {
-      if (!this.songMsg || this.songMsg.id === data.id) {
+      if (!this.songMsg || this.songMsg.id !== data.id) {
         if (data.imgUrl) {
           this.backgroundService.setUrl(data.imgUrl);
         }
@@ -88,6 +88,7 @@ export class FooterComponent implements OnInit {
       this.audio.addEventListener('ended', () => {
         this.shouldAnalyser = false;
         this.resetPlayMsg(this.playMsg.volume);
+        this.palylistService.next();
       });
       this.audio.addEventListener('pause', () => {
         this.shouldAnalyser = false;

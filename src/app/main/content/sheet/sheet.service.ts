@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ResponseJSONType } from 'src/app/utils/services/httpResponseJSON';
 import { NotificationService } from 'src/app/utils/services/notification.service';
 import { delay, map } from 'rxjs';
+import { LocalSongType } from 'src/app/utils/services/song.service';
 export interface Sheet {
   id: number;
   sheetName: string;
@@ -39,5 +40,10 @@ export class SheetService {
           return data;
         }),
       );
+  }
+  getSheetSong(sheetId: number) {
+    return this.http.get<ResponseJSONType<{ songs: LocalSongType[]; total: number; sheet: Sheet }>>(
+      `/sheets/song/${sheetId}`,
+    );
   }
 }

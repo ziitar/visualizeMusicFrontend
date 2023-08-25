@@ -1,1 +1,25 @@
-<p>sheet-list works!</p>
+<div class="box">
+  <div appRow class="card" [flex]="true" [gutter]="24" [flexNowrap]="true">
+    <div appCol [span]="8" algin="right" style="font-size: 0">
+      <div class="card-img">
+        <img [src]="sheetImg" alt="" />
+      </div>
+    </div>
+    <div appCol [span]="16">
+      <div>{{ sheet?.sheetName }} <i class="editFill"></i></div>
+    </div>
+  </div>
+  <h3>歌曲列表</h3>
+  <app-table
+    [columns]="columns"
+    [data]="songs"
+    [columnTemp]="{operation}"
+    [scroll]="{ y: scroll_y, x: true }"
+  >
+    <ng-template #operation let-data="data" let-index="index" let-key="key">
+      <div>
+        <span class="playFill" (click)="handlePlay(data)"></span>
+      </div>
+    </ng-template>
+  </app-table>
+</div>
