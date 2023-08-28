@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Tags } from 'src/electronAPI';
+import { IFormat, Tags } from 'src/electronAPI';
 import { ColumnsType } from '../components/table/table.component';
 import { SearchSongType, SongService } from '../utils/services/song.service';
 import { isFalseValue, isTrulyValue, msToTime } from 'src/utils/utils';
@@ -20,7 +20,8 @@ export class MusicComponent implements OnInit {
   fileID3: undefined | Tags;
   oldFileID3: undefined | Tags;
   oldImgUrl: undefined | SafeUrl;
-  oldFileDuration = '-';
+  oldFileFormat: (Omit<IFormat, 'duration'> & { duration?: string }) | undefined;
+  fileDuration = '-';
   imgUrl: undefined | SafeUrl;
   searchName: undefined | string;
   columns: ColumnsType<SearchSongType>[] = [
@@ -82,7 +83,10 @@ export class MusicComponent implements OnInit {
       }
       this.handleSearch();
       this.oldFileID3 = fileID3;
-      if (format.duration) this.oldFileDuration = msToTime(format.duration * 1000);
+      this.oldFileFormat = {
+        ...format,
+        duration: format.duration ? msToTime(format.duration * 1000) : '',
+      };
       if (fileID3.image) {
         if (typeof fileID3.image === 'string') {
           this.oldImgUrl = fileID3.image;
@@ -115,9 +119,13 @@ export class MusicComponent implements OnInit {
       track: result.track,
       date: result.date,
       label: result.label,
+      comment: [`网易云音乐ID: ${result.id}`],
     };
     if (picUrl) {
       tags.image = picUrl;
+    }
+    if (result.duration) {
+      this.fileDuration = msToTime(result.duration);
     }
     this.fileID3 = tags;
     this.oldOrNew = 'new';
@@ -186,7 +194,8 @@ export class MusicComponent implements OnInit {
   resetVar() {
     this.activeFile = undefined;
     this.oldFileID3 = undefined;
-    this.oldFileDuration = '-';
+    this.oldFileFormat = undefined;
+    this.fileDuration = '-';
     this.fileID3 = undefined;
     this.oldImgUrl = undefined;
     this.imgUrl = undefined;

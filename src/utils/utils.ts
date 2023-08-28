@@ -89,7 +89,11 @@ export function formatLocalSongMsg(
   if (bitrate === '1') {
     extra = `&lossless=${bitrate}`;
   } else {
-    extra = `&lossless=0&bitrate=${bitrate}`;
+    if (song.bitrate && song.bitrate > parseInt(bitrate.replace('k', '')) * 1000) {
+      extra = `&lossless=0&bitrate=${bitrate}`;
+    } else {
+      extra = `&lossless=${bitrate}`;
+    }
   }
   songUrl = `${environment.service}/assets/decode/${songUrl}?${Object.entries(song)
     .filter(([key, value]) => filterKey.includes(key) && value)

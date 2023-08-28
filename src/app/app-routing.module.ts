@@ -55,7 +55,7 @@ const routes: Routes = [
       {
         path: 'sheetList/:sheetId',
         component: SheetListComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       { path: '', pathMatch: 'full', redirectTo: 'search' },
     ],

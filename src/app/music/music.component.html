@@ -42,16 +42,18 @@
               </div>
               <ul>
                 <li>标题：{{ oldFileID3.title }}</li>
-                <li>艺术家：{{ oldFileID3.artists }}</li>
+                <li>艺术家：{{ oldFileID3.artist }}</li>
                 <li>专辑：{{ oldFileID3.album }}</li>
                 <li>专辑艺术家：{{ oldFileID3.albumartist }}</li>
-                <li>时长：{{ oldFileDuration }}</li>
+                <li>时长：{{ oldFileFormat?.duration }}</li>
                 <li>年份：{{ oldFileID3.year }}</li>
                 <li>发行日期：{{ oldFileID3.date }}</li>
                 <li>发行公司：{{ oldFileID3.label }}</li>
                 <li *ngIf="oldFileID3.track">
                   轨道编号：{{ oldFileID3.track.no }}/{{ oldFileID3.track.of }}
                 </li>
+                <li>码率：{{ oldFileFormat?.bitrate }}</li>
+                <li>无损：{{ oldFileFormat?.lossless }}</li>
               </ul>
             </ng-container>
           </ng-container>
@@ -64,10 +66,10 @@
               </div>
               <ul>
                 <li>标题：{{ fileID3.title }}</li>
-                <li>艺术家：{{ fileID3.artists }}</li>
+                <li>艺术家：{{ fileID3.artist }}</li>
                 <li>专辑：{{ fileID3.album }}</li>
                 <li>专辑艺术家：{{ fileID3.albumartist }}</li>
-                <li *ngIf="fileID3.comment">时长：{{ fileID3.comment[0] }}</li>
+                <li>时长：{{ fileDuration }}</li>
                 <li>年份：{{ fileID3.year }}</li>
                 <li>发行日期：{{ fileID3.date }}</li>
                 <li>发行公司：{{ fileID3.label }}</li>

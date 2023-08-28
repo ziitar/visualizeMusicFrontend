@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  service: 'http://192.168.1.117:7000',
+  service: 'http://192.168.1.172:4200/backend',
 };

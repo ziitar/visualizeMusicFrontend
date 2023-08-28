@@ -2,9 +2,18 @@ import { PlaylistService, PlayModeType } from './../../utils/services/playlist.s
 import { BackgroundService, defaultBG } from './../../utils/services/background.service';
 import { SongService, SongDetailType } from './../../utils/services/song.service';
 import { AnalysisData } from './../../utils/services/analyser.service';
-import { Component, OnInit, ElementRef, Output, EventEmitter, NgZone } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  Output,
+  EventEmitter,
+  NgZone,
+  OnDestroy,
+} from '@angular/core';
 import { AnalyserService } from 'src/app/utils/services/analyser.service';
 import AudioContent from 'src/utils/audioContext';
+import { Subscription } from 'rxjs';
 type AnalysisFlag = Partial<Record<keyof AnalysisData, boolean>>;
 
 interface PlayMsgType {
@@ -19,7 +28,7 @@ interface PlayMsgType {
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.less'],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
   audio: HTMLAudioElement | undefined;
   audioContext: AudioContent;
   shouldAnalyser = false;
@@ -33,7 +42,7 @@ export class FooterComponent implements OnInit {
     progress: 0,
   };
   playMode: PlayModeType = 1;
-
+  subscriptions: Subscription[] = [];
   constructor(
     private el: ElementRef<HTMLElement>,
     private analyser: AnalyserService,
@@ -43,7 +52,7 @@ export class FooterComponent implements OnInit {
     private ngZone: NgZone,
   ) {
     this.audioContext = new AudioContent(256);
-    this.songService.songMsgObserver.subscribe((data) => {
+    const subscription3 = this.songService.songMsgObserver.subscribe((data) => {
       if (!this.songMsg || this.songMsg.id !== data.id) {
         if (data.imgUrl) {
           this.backgroundService.setUrl(data.imgUrl);
@@ -55,16 +64,19 @@ export class FooterComponent implements OnInit {
       }
       this.palylistService.mergeMsg(data);
     });
-    this.songService.songUrlObserver.subscribe((data) => {
+    const subscription1 = this.songService.songUrlObserver.subscribe((data) => {
       if (data.url) {
         this.audioContext.changeCtxState();
         this.loadMusic(data.url);
         this.palylistService.mergeMsg(data);
       }
     });
-    this.palylistService.playModeObserver.subscribe((data) => {
+    const subscription2 = this.palylistService.playModeObserver.subscribe((data) => {
       this.playMode = data;
     });
+    this.subscriptions.push(subscription1);
+    this.subscriptions.push(subscription2);
+    this.subscriptions.push(subscription3);
   }
 
   ngOnInit(): void {
@@ -97,6 +109,12 @@ export class FooterComponent implements OnInit {
         this.shouldAnalyser = true;
         this.animateExec({ frequency: true });
       });
+    }
+  }
+
+  ngOnDestroy(): void {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
     }
   }
 
