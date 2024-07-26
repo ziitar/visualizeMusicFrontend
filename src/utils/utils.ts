@@ -89,14 +89,17 @@ export function formatLocalSongMsg(
   if (bitrate === '1') {
     extra = `&lossless=${bitrate}`;
   } else {
-    if (song.bitrate && song.bitrate > parseInt(bitrate.replace('k', '')) * 1000) {
+    if (
+      (song.bitrate && song.bitrate > parseInt(bitrate.replace('k', '')) * 1000) ||
+      song.type === 'tracks'
+    ) {
       extra = `&lossless=0&bitrate=${bitrate}`;
     } else {
-      extra = `&lossless=${bitrate}`;
+      extra = `&lossless=1`;
     }
   }
   songUrl = `${environment.service}/assets/decode/${songUrl}?${Object.entries(song)
-    .filter(([key, value]) => filterKey.includes(key) && value)
+    .filter(([key, value]) => filterKey.includes(key) && isTrulyValue(value))
     .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
     .join('&')}${extra}`;
   const imgUrl = song.image ? `${environment.service}${song.image}` : undefined;

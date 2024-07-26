@@ -5,7 +5,7 @@ import { SearchSongType, SongService } from '../utils/services/song.service';
 import { isFalseValue, isTrulyValue, msToTime } from 'src/utils/utils';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NotificationService } from '../utils/services/notification.service';
-import { from, zip } from 'rxjs';
+import { from, forkJoin, pipe, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-music',
@@ -105,7 +105,7 @@ export class MusicComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
   setID3(
-    result: SearchSongType & Pick<Tags, 'track' | 'date' | 'albumartist' | 'label'>,
+    result: SearchSongType & Pick<Tags, 'track' | 'date' | 'albumartist' | 'label' | 'label'>,
     picUrl?: string,
   ) {
     const year = `${new Date(result.album.publishTime).getFullYear()}`;
@@ -133,16 +133,18 @@ export class MusicComponent implements OnInit {
   }
   getMsg = (event: MouseEvent, data?: SearchSongType) => {
     if (data) {
-      return zip([
+      return forkJoin([
         this.songService.getSongMsg(data.id),
-        this.songService.getAlbum(data.album.id),
+        this.songService.getAlbum(data.album.id).pipe(catchError(() => of(undefined))),
       ]).subscribe(([res, albumRes]) => {
+        console.log(res, albumRes);
         if (res.code === 200 && res.result) {
           this.tableSelectId = data.id;
           const picUrl = `${res.result.picUrl}?param=500y500`;
           this.imgUrl = picUrl;
-          const extendsData: Pick<Tags, 'track' | 'date' | 'albumartist' | 'label'> = {};
-          if (albumRes.code === 200) {
+          const extendsData: Pick<Tags, 'track' | 'date' | 'albumartist' | 'label'> &
+            Partial<Pick<SearchSongType, 'album'>> = {};
+          if (albumRes && albumRes.code === 200) {
             if (albumRes.album.company) extendsData.label = [albumRes.album.company];
             if (!isFalseValue(albumRes.album.publishTime)) {
               extendsData.date = new Date(albumRes.album.publishTime)
@@ -156,6 +158,14 @@ export class MusicComponent implements OnInit {
               };
             }
             extendsData.albumartist = albumRes.album.artists.map((item) => item.name).join('/');
+          } else {
+            extendsData.albumartist = data.artists.map((item) => item.name).join('/');
+            extendsData.track = { of: 1, no: 1 };
+            extendsData.album = {
+              name: data.name,
+              id: 0,
+              publishTime: new Date().getTime(),
+            };
           }
           this.setID3({ ...data, ...extendsData }, picUrl);
         } else {
